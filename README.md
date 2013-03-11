@@ -25,12 +25,12 @@ How to
 *bnagen* creates a map according to your custom sprites list. First, you have to pick up some png, bmp, etc. sprites into yout working directory. Then you need to create a line-by-line list of all your sprites you want to be used in your map (`ls -1 > sprites.txt` may help you with it). And then you simply run *bnagen* — fresh-cooked `out.bmp` will appear.
 
 *bnagen* is tunable with these command-line keys:
-	*-w VALUE* — output image width
-	*-h VALUE* — output image height
-	*-i FILENAME* — specify the sprite list filename
-	*-s VALUE* — randomizing factor (seed)
-	*-I VALUE* — intensity of sprites
-	*-o FILENAME* — output bitmap filename
+ - *-w VALUE* — output image width
+ - *-h VALUE* — output image height
+ - *-i FILENAME* — specify the sprite list filename
+ - *-s VALUE* — randomizing factor (seed)
+ - *-I VALUE* — intensity of sprites
+ - *-o FILENAME* — output bitmap filename
 
 All these keys are optional, the following defaults may be used instead:
 	width: 1920
