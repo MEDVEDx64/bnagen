@@ -1,4 +1,0 @@
-a.png
-b.png
-1.bmp
-2.bmp
