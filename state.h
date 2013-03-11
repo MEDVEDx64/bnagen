@@ -11,8 +11,8 @@ extern int progbar_max;     // max progressbar value
 enum
 {
     GEN_NOTHING,
-    GEN_ARGS, GEN_SPRITELOAD, GEN_MKMASK,\
-    GEN_WORKING, GEN_SAVING,
+    GEN_ARGS, GEN_SPRITELOAD, GEN_MKMASK,
+    GEN_PREPARING, GEN_WORKING, GEN_SAVING,
     GEN_SHUTDOWN
 };
 

@@ -1,8 +1,20 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "params.h"
 #include "state.h"
+
+void showHelp(const char * argv_0)
+{
+    printf("usage: %s [OPTIONS...]\n\
+           -w VALUE — output image width\n\
+           -h VALUE — output image height\n\
+           -i FILENAME — specify the sprite list filename\n\
+           -s VALUE — randomizing factor\n\
+           -I VALUE — intensity\n\
+           -o FILENAME — output bitmap filename\n", argv_0);
+}
 
 t_genParams * genParseArgs(int argc, char *argv[])
 {
@@ -34,20 +46,32 @@ t_genParams * genParseArgs(int argc, char *argv[])
         if(!strcmp(argv[i], "-I"))
             params->intensity = atoi(argv[i+1]);
 
-        /* .. and filename */
+        /* .. and filenames */
         if(!strcmp(argv[i], "-i"))
         {
             params->list_fn = malloc(strlen(argv[i+1]));
             strcpy(params->list_fn, argv[i+1]);
         }
+
+        if(!strcmp(argv[i], "-o"))
+        {
+            params->out_fn = malloc(strlen(argv[i+1]));
+            strcpy(params->out_fn, argv[i+1]);
+        }
     }
+
+    // Showing help if nothing specified
+    if(!(params->width|params->height|(unsigned int)params->list_fn
+         |params->seed|params->intensity|(unsigned int)params->out_fn)) showHelp(argv[0]);
 
     /* Fixing incorrect values */
     if(!params->width) params->width        = DEFAULT_W;
     if(!params->height) params->height      = DEFAULT_H;
     if(!params->list_fn) params->list_fn    = DEFAULT_FILENAME;
     if(!params->seed) params->seed              = DEFAULT_SEED;
-    if(!params->intensity) params->intensity    = DEFAULT_FILENAME;
+    if(!params->intensity) params->intensity    = DEFAULT_INTENSITY;
+    if(!params->out_fn) params->out_fn          = DEFAULT_OUT_FN;
+
 
     /* Okay. */
     return params;

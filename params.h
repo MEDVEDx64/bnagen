@@ -6,18 +6,21 @@
 #define DEFAULT_FILENAME "sprites.txt"
 
 #define DEFAULT_SEED        128
-#define DEFAULT_INTENSITY   254
+#define DEFAULT_INTENSITY   38600
+
+#define DEFAULT_OUT_FN "out.bmp"
 
 typedef struct {
     /* Graphics list file name */
     char      * list_fn;
+    char      * out_fn;
     int         seed;
     unsigned
          int    width;
     unsigned
          int    height;
     unsigned
-        char    intensity;
+         int    intensity;
 }
 t_genParams;
 

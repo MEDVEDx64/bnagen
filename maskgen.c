@@ -25,7 +25,7 @@ void rnd_roll(int roll)
     }
 }
 
-unsigned char * genCreatMask(t_genParams * params) {
+T_MASK_PIXEL * genCreatMask(t_genParams * params) {
     genState = GEN_MKMASK;
     rnd_roll(params->seed);
 
@@ -33,7 +33,7 @@ unsigned char * genCreatMask(t_genParams * params) {
         return NULL;
 
     /// Creating the mask
-    unsigned char * mask = malloc(params->width * params->height);
+    T_MASK_PIXEL * mask = malloc((params->width * params->height) * sizeof(T_MASK_PIXEL));
     if(mask == NULL)
     {
         printf("God, save the Queen!! Out of memory?!?\n");
@@ -43,7 +43,7 @@ unsigned char * genCreatMask(t_genParams * params) {
     /// Filling that mask with random
     int i;
     for(i = 0; i < params->width*params->height; ++i) {
-        mask[i] = (unsigned char)(rand()%params->intensity);
+        mask[i] = (T_MASK_PIXEL)(rand()%params->intensity);
         /// Filtering
         //if(mask[i] > spr_info->count) mask[i] = 0;
     }

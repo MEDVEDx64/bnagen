@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-i lst" />
+				<Option parameters="-i lst -o 123.bmp -o asd.bmp" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>

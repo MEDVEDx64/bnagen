@@ -1,44 +1,47 @@
 # depslib dependency file v1.0
-1362936748 source:/home/medved/src/bnagen/drawthemap.c
+1362990525 source:/home/medved/src/bnagen/drawthemap.c
 	"drawthemap.h"
 	"state.h"
 
-1362922194 /home/medved/src/bnagen/drawthemap.h
+1362985876 /home/medved/src/bnagen/drawthemap.h
 	<SDL/SDL.h>
 	"params.h"
+	"maskgen.h"
 	"sprites_struct.h"
 
-1362924840 /home/medved/src/bnagen/params.h
+1362985949 /home/medved/src/bnagen/params.h
 
-1362919363 /home/medved/src/bnagen/sprites_struct.h
+1362942043 /home/medved/src/bnagen/sprites_struct.h
 	<SDL/SDL.h>
 
-1362936943 source:/home/medved/src/bnagen/loader.c
+1362982297 source:/home/medved/src/bnagen/loader.c
 	<malloc.h>
 	<stdio.h>
 	<SDL/SDL_image.h>
 	"loader.h"
 	"state.h"
 
-1362857829 /home/medved/src/bnagen/loader.h
+1362942043 /home/medved/src/bnagen/loader.h
 	"sprites_struct.h"
 
-1362936024 source:/home/medved/src/bnagen/maskgen.c
+1362985772 source:/home/medved/src/bnagen/maskgen.c
 	"maskgen.h"
 	"state.h"
 	<SDL/SDL.h>
 
-1362924672 /home/medved/src/bnagen/maskgen.h
+1362988606 /home/medved/src/bnagen/maskgen.h
 	"params.h"
+	<SDL/SDL.h>
 
-1362935965 source:/home/medved/src/bnagen/params.c
+1362985485 source:/home/medved/src/bnagen/params.c
 	<string.h>
 	<malloc.h>
 	<stdlib.h>
+	<stdio.h>
 	"params.h"
 	"state.h"
 
-1362936834 source:/home/medved/src/bnagen/bnagen_main.c
+1362990049 source:/home/medved/src/bnagen/bnagen_main.c
 	<SDL/SDL.h>
 	<SDL/SDL_ttf.h>
 	"params.h"
@@ -48,5 +51,5 @@
 	"state.h"
 	<stdio.h>
 
-1362931809 /home/medved/src/bnagen/state.h
+1362989697 /home/medved/src/bnagen/state.h
 

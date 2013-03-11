@@ -1,3 +1,10 @@
+/** BnA map generator
+    MEDVEDx64, 2013.03.10-11
+    GPLv2.
+**/
+
+#define BNAGEN_VERSION "0.01-130311-draft"
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
@@ -61,9 +68,9 @@ int initTTF()
 
 static SDL_Rect pbr; // Progress bar rectangle
 
-#define PBAR_DRAW           do {                                \
-    pbr.w = (SCRW/GEN_SHUTDOWN)*genState;                       \
-    SDL_FillRect(SDL_GetVideoSurface(), &pbr, 0x800000);        \
+#define PBAR_DRAW           do {                                        \
+    pbr.w = (int)(((float)SCRW/(float)progbar_max)*(float)progbar)+1;   \
+    SDL_FillRect(SDL_GetVideoSurface(), &pbr, 0x800000);                \
 } while(0)
 
 #ifndef DRAW_DELAY
@@ -107,21 +114,28 @@ int drawState(void * unused)
                 MKTEXTSURF("Randomizing...");
                 break;
 
+            case GEN_PREPARING:
+
+                MKTEXTSURF("Allocating $$$...");
+                break;
+
             case GEN_WORKING:
 
                 // Cooking text surface
                 sprintf(text_buf, "Rendering: %d/%d", progbar, progbar_max);
-                MKTEXTSURF(text_buf); break;
+                MKTEXTSURF(text_buf);
+                PBAR_DRAW;
+                break;
 
             case GEN_SAVING:
 
                 MKTEXTSURF("Saving...");
+                PBAR_DRAW;
                 break;
 
         }
 
         // Drawing
-        PBAR_DRAW;
         SDL_Flip(SDL_GetVideoSurface());
         SDL_Delay(DRAW_DELAY);
     }
@@ -136,7 +150,7 @@ int drawState(void * unused)
 
 int main(int argc, char *argv[])
 {
-    printf("bnagen, some very early build\n");
+    printf("bnagen " BNAGEN_VERSION "\n");
 
     // Parsing commandline arguments
     t_genParams *parm = genParseArgs(argc, argv);
@@ -146,26 +160,28 @@ int main(int argc, char *argv[])
     // Starting up graphics and TTF subsystems
     if(initGfx() | initTTF()) return 1;
 
+    SDL_CreateThread(drawState, NULL);
+
     // Loading sprites
     t_genSprites * spr = genLoadSprites(parm->list_fn);
     if(spr == NULL)
         FATAL_ERROR("Fatal error occured while loading sprites\n");
 
     // Creating randomized mask
-    unsigned char *mask = genCreatMask(parm);
-
-    SDL_CreateThread(drawState, NULL);
+    T_MASK_PIXEL *mask = genCreatMask(parm);
 
     // If it's allight, rendering resulting BnA map
     SDL_Surface * themap = genCreateBnAMap(parm, spr, mask);
 
     // And saving it into BMP.
-    SDL_SaveBMP(themap, "asd.bmp");
+    genState = GEN_SAVING;
+    SDL_SaveBMP(themap, parm->out_fn);
 
     // Freeing, etc.
     SDL_FreeSurface(themap);
     free(mask);
 
     genState = GEN_SHUTDOWN;
+    printf("Done.\n");
     return 0;
 }

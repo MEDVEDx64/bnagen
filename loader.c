@@ -16,8 +16,8 @@ t_genSprites * genLoadSprites(const char * list_fn)
         return NULL;
     }
 
-    t_genSprites *spr = malloc(sizeof(sizeof(spr)));
-    memset(spr, 0, sizeof(spr));
+    t_genSprites *spr = malloc(sizeof(t_genSprites));
+    memset(spr, 0, sizeof(t_genSprites));
 
     char * buf = malloc(0x1000);
     while(!feof(f))
