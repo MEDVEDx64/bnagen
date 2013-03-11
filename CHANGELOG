@@ -1,0 +1,10 @@
+0.01-130311-draft
+
+	- First working version
+
+0.02
+
+	- Help message is now can be called using '-?' or '--help' arguments
+	- Now it's REALLY random
+	- Fix segfault in situation, when the map has failed to create 'cause of too large width or height specified
+	- Maximal sprites count changed and now it can be redefined while re-comilation
