@@ -4,7 +4,7 @@
 	<File name="bnagen_main.c" open="1" top="0" tabpos="9">
 		<Cursor position="1173" topLine="0" />
 	</File>
-	<File name="drawthemap.c" open="1" top="1" tabpos="8">
+	<File name="drawthemap.c" open="1" top="0" tabpos="8">
 		<Cursor position="210" topLine="0" />
 	</File>
 	<File name="drawthemap.h" open="1" top="0" tabpos="10">
@@ -20,13 +20,13 @@
 		<Cursor position="918" topLine="0" />
 	</File>
 	<File name="maskgen.h" open="1" top="0" tabpos="6">
-		<Cursor position="95" topLine="0" />
+		<Cursor position="185" topLine="0" />
 	</File>
 	<File name="params.c" open="1" top="0" tabpos="2">
-		<Cursor position="1735" topLine="56" />
+		<Cursor position="1735" topLine="28" />
 	</File>
-	<File name="params.h" open="1" top="0" tabpos="1">
-		<Cursor position="201" topLine="0" />
+	<File name="params.h" open="1" top="1" tabpos="1">
+		<Cursor position="459" topLine="5" />
 	</File>
 	<File name="sprites_struct.h" open="1" top="0" tabpos="5">
 		<Cursor position="0" topLine="0" />
