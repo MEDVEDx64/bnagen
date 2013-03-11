@@ -5,17 +5,6 @@
 #include "params.h"
 #include "state.h"
 
-void showHelp(const char * argv_0)
-{
-    printf("usage: %s [OPTIONS...]\n\
-           -w VALUE — output image width\n\
-           -h VALUE — output image height\n\
-           -i FILENAME — specify the sprite list filename\n\
-           -s VALUE — randomizing factor\n\
-           -I VALUE — intensity\n\
-           -o FILENAME — output bitmap filename\n", argv_0);
-}
-
 t_genParams * genParseArgs(int argc, char *argv[])
 {
     /*if(argc < 2)
@@ -59,10 +48,6 @@ t_genParams * genParseArgs(int argc, char *argv[])
             strcpy(params->out_fn, argv[i+1]);
         }
     }
-
-    // Showing help if nothing specified
-    if(!(params->width|params->height|(unsigned int)params->list_fn
-         |params->seed|params->intensity|(unsigned int)params->out_fn)) showHelp(argv[0]);
 
     /* Fixing incorrect values */
     if(!params->width) params->width        = DEFAULT_W;

@@ -14,7 +14,7 @@ T_MASK_PIXEL getPixel(SDL_Surface *surface, int x, int y) /* lazyfoo */
     return pixels[(y*surface->w)+x];
 }
 
-/** To avoid sprites crossing at result BnA map **/
+/** To avoid sprites crossing at resulting BnA map **/
 T_MASK_PIXEL isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y)
 {
     T_MASK_PIXEL result = 0;
@@ -61,6 +61,11 @@ SDL_Surface * mkSurf(int w, int h)
 
     SDL_Surface * s = SDL_CreateRGBSurface(0, w, h, 32,
                                 rmask, gmask, bmask, amask);
+    if(s == NULL)
+    {
+        printf("%s: error occured while attempting to allocate a space for the map: %s\n", __FUNCTION__, SDL_GetError());
+        return NULL;
+    }
     SDL_Surface * s_format = SDL_DisplayFormat(s);
     SDL_FreeSurface(s);
     return s_format;
@@ -77,6 +82,7 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites,
     genState = GEN_PREPARING;
 
     SDL_Surface * themap = mkSurf(params->width, params->height);
+    if(themap == NULL) return NULL;
 
     progbar_max = params->width;
     genState = GEN_WORKING;

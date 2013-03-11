@@ -5,7 +5,7 @@
 #define DEFAULT_H 696
 #define DEFAULT_FILENAME "sprites.txt"
 
-#define DEFAULT_SEED        128
+#define DEFAULT_SEED        0
 #define DEFAULT_INTENSITY   38600
 
 #define DEFAULT_OUT_FN "out.bmp"

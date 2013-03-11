@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.01-130311-draft"
+#define BNAGEN_VERSION "0.02"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -13,8 +13,10 @@
 #include "maskgen.h"
 #include "drawthemap.h"
 #include "state.h"
+#include "help_message.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #define FATAL_ERROR(mesg) do {      \
     printf(mesg);                   \
@@ -25,7 +27,12 @@ while(0)
 #define SCRW 300
 #define SCRH 200
 
-#define FONT_FN "font.ttf"
+#ifndef FONT_FN
+#   define FONT_FN "font.ttf"
+#endif
+#ifndef SHARE_DIR
+#   define SHARE_DIR "/usr/share/bnagen/"
+#endif // SHARE_DIR
 #define FONT_SIZE 12
 
 // State variables
@@ -54,7 +61,12 @@ int initTTF()
     // Loading the font from file
     font = TTF_OpenFont(FONT_FN, FONT_SIZE);
     if(!font)
-        FATAL_ERROR("Font file couldn't be loaded.\n");
+    {
+        // Keep trying...
+        font = TTF_OpenFont(SHARE_DIR FONT_FN, FONT_SIZE);
+        if(/* still */ !font)
+            FATAL_ERROR("Font file couldn't be loaded.\n");
+    }
 
     return 0;
 }
@@ -150,12 +162,20 @@ int drawState(void * unused)
 
 int main(int argc, char *argv[])
 {
+    /// Looking for '-?' or '--help' argument first
+    int a; for(a = 0; a < argc; a++)
+        if(!strcmp(argv[a], "-?") || !strcmp(argv[a], "--help"))
+        {
+            SHOWHELP;
+            return 0;
+        }
+
     printf("bnagen " BNAGEN_VERSION "\n");
 
     // Parsing commandline arguments
     t_genParams *parm = genParseArgs(argc, argv);
     if(parm == NULL)
-        FATAL_ERROR("Failure occured while parsing args\n");
+        FATAL_ERROR("Failure occured while parsing args.\n");
 
     // Starting up graphics and TTF subsystems
     if(initGfx() | initTTF()) return 1;
@@ -165,13 +185,16 @@ int main(int argc, char *argv[])
     // Loading sprites
     t_genSprites * spr = genLoadSprites(parm->list_fn);
     if(spr == NULL)
-        FATAL_ERROR("Fatal error occured while loading sprites\n");
+        FATAL_ERROR("Fatal error occured while loading sprites.\n");
 
     // Creating randomized mask
     T_MASK_PIXEL *mask = genCreatMask(parm);
 
     // If it's allight, rendering resulting BnA map
     SDL_Surface * themap = genCreateBnAMap(parm, spr, mask);
+
+    if(themap == NULL)
+        FATAL_ERROR("Fatal: the map was not created.\n");
 
     // And saving it into BMP.
     genState = GEN_SAVING;

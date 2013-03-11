@@ -1,13 +1,15 @@
 #ifndef SPRITES_STRUCT_H_INCLUDED
 #define SPRITES_STRUCT_H_INCLUDED
 
-#define SPR_MAX 0x20
+#ifndef MAX_SPRITES
+#   define MAX_SPRITES 0x100
+#endif
 
 #include <SDL/SDL.h>
 
 typedef
 struct {
-    SDL_Surface * surf[SPR_MAX];
+    SDL_Surface * surf[MAX_SPRITES];
     unsigned int count;
 }
 t_genSprites;

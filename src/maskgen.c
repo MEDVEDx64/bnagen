@@ -1,34 +1,14 @@
 #include "maskgen.h"
 #include "state.h"
 
+#include <time.h>
+
 #include <SDL/SDL.h>
 
-void rnd_roll(int roll)
-{
-    // Let's roll the Wheel-o-Fortune
-    int i = 0;
-    while(i)
-    {
-        rand();
-        --i;
-    }
-
-    // More random factor here!
-    if(SDL_WasInit(0))
-    {
-        i = SDL_GetTicks();
-        while(i)
-        {
-            rand();
-            --i;
-        }
-    }
-}
-
 T_MASK_PIXEL * genCreatMask(t_genParams * params) {
-    genState = GEN_MKMASK;
-    rnd_roll(params->seed);
+    srand(params->seed + time(0));
 
+    genState = GEN_MKMASK;
     if(!params->width || !params->height)
         return NULL;
 

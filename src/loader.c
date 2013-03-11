@@ -23,7 +23,7 @@ t_genSprites * genLoadSprites(const char * list_fn)
     while(!feof(f))
     {
         /* Check for limits first */
-        if(spr->count >= SPR_MAX) break;
+        if(spr->count >= MAX_SPRITES) break;
 
         /* Line-by-line reading */
         if(fscanf(f, "%s\n", buf) != 1) continue;
