@@ -165,7 +165,7 @@ int eventsThread(void * unused)
             if(ev.type == SDL_QUIT)
             {
                 genState = GEN_SHUTDOWN;
-                printf("Caught quit request.");
+                printf("Caught quit request.\n");
                 exit(0);
             }
         }
