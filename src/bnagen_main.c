@@ -231,7 +231,8 @@ int main(int argc, char *argv[])
 
     // And saving it into BMP.
     genState = GEN_SAVING;
-    SDL_SaveBMP(themap, parm->out_fn);
+    if(SDL_SaveBMP(themap, parm->out_fn))
+        FATAL_ERROR("Fatal: unable to write the map file.\n");
 
     // Freeing, etc.
     SDL_FreeSurface(themap);

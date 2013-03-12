@@ -33,6 +33,10 @@ t_genParams * genParseArgs(int argc, char *argv[])
         if(!strcmp(argv[i], "-d"))
             params->deadzone = atoi(argv[i+1]);
 
+        /* Rotate flag */
+        if(!strcmp(argv[i], "-r"))
+            params->rotate = atoi(argv[i+1]);
+
         /* .. and filenames */
         if(!strcmp(argv[i], "-i"))
         {

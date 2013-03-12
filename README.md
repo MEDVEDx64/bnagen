@@ -32,6 +32,7 @@ How to
  - *-I VALUE* — intensity of sprites
  - *-o FILENAME* — output bitmap filename
  - *-d VALUE* — deadzone, distance between sprites
+ - *-r VALUE* — should sprites be randomly rotated?
 
 All these keys are optional, the following defaults may be used instead:
 	width: 1920

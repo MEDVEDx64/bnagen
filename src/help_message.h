@@ -12,7 +12,8 @@ usage: %s [OPTIONS ...]\n\
             -s VALUE — randomizing factor (seed)\n\
             -I VALUE — intensity\n\
             -o FILENAME — output bitmap filename\n\
-            -d VALUE — 'deadzone': distance between sprites\n\n\
+            -d VALUE — 'deadzone': distance between sprites\n\
+            -r VALUE — should sprites be randomly rotated?\n\n\
 All these keys are optional, the following defaults may be used instead:\n\
             width: %d\n\
             height: %d\n\

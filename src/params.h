@@ -23,6 +23,7 @@ typedef struct {
     unsigned
          int    intensity;
     int         deadzone;
+    int         rotate;     // random sprite rotation toggler
 }
 t_genParams;
 

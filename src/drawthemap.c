@@ -1,6 +1,10 @@
 #include "drawthemap.h"
 #include "state.h"
 
+#include <SDL/SDL_rotozoom.h>
+
+#define rotateSprite(spr) rotozoomSurface(spr, (double)(rand()%360), 1, SMOOTHING_OFF)
+
 // ported from TestStuff source code
 T_MASK_PIXEL getPixel(SDL_Surface *surface, int x, int y) /* lazyfoo */
 {
@@ -45,12 +49,18 @@ T_MASK_PIXEL isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y
     }
 
     leave_point:
-
-    // Avoiding sprites partially leaving the map's boundaries
-    result |= x > targ->w-sprite->w-1 ? 1 : 0;
-    result |= y > targ->h-sprite->h-1 ? 1 : 0;
-
     return !result;
+}
+
+int isSpriteIsOutOfBounds(SDL_Surface * targ, SDL_Surface * spr,
+                          int x, int y)
+{
+    int result = 0;
+    // Avoiding sprites partially leaving the map's boundaries
+    result += x > targ->w-spr->w-1 ? 1 : 0;
+    result += y > targ->h-spr->h-1 ? 1 : 0;
+
+    return result;
 }
 
 void blit(SDL_Surface * dest, SDL_Surface * src, int x, int y)
@@ -118,7 +128,20 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites,
         {
             if(mask[COORD2ADDR(x,y)] <= sprites->count && mask[COORD2ADDR(x,y)]
                && isAreaIsFree(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y, params->deadzone))
-                blit(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y);
+                {
+                    if(params->rotate) // Should sprites be rotated?
+                    {
+                        SDL_Surface * temp = rotateSprite(sprites->surf[mask[COORD2ADDR(x,y)] - 1]);
+                        if(!isSpriteIsOutOfBounds(themap, temp, x, y)) blit(themap, temp, x, y);
+                        SDL_FreeSurface(temp);
+                    }
+                    else
+                    {
+                        if(!isSpriteIsOutOfBounds(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1]
+                                                 , x, y))
+                            blit(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y);
+                    }
+                }
         }
 
     }
