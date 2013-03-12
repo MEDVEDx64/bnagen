@@ -6,10 +6,11 @@ Installation
 First, you have to compile *bnagen*. Make sure that you have the following libraries installed:
  - libSDL (1.2);
  - libSDL_image (1.2);
- - libSDL_ttf (2.0).
+ - libSDL_ttf (2.0);
+ - libSDL_gfx (1.2).
 
 In most of Debian-like systems this all may be installed via *apt*:
-`sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev`
+`sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-gfx1.2-dev`
 
 Then you have to run `make` and `sudo make install`.
 

@@ -1,28 +1,29 @@
 #include "drawthemap.h"
 #include "state.h"
 
+#include <time.h>
 #include <SDL/SDL_rotozoom.h>
 
 #define rotateSprite(spr) rotozoomSurface(spr, (double)(rand()%360), 1, SMOOTHING_OFF)
 
 // ported from TestStuff source code
-T_MASK_PIXEL getPixel(SDL_Surface *surface, int x, int y) /* lazyfoo */
+Uint32 getPixel(SDL_Surface *surface, int x, int y) /* lazyfoo */
 {
     if(x<0 || y<0 || surface == NULL)
         return 0;
 
     SDL_LockSurface(surface);
-    T_MASK_PIXEL *pixels = (T_MASK_PIXEL*)surface->pixels;
+    Uint32 *pixels = (Uint32*)surface->pixels;
     SDL_UnlockSurface(surface);
 
     return pixels[(y*surface->w)+x];
 }
 
 /** To avoid sprites crossing at resulting BnA map **/
-T_MASK_PIXEL isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y,
+Uint32 isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y,
                           int deadzone)
 {
-    T_MASK_PIXEL result = 0;
+    Uint32 result = 0;
     int xs,ys;
 
     if(deadzone)
@@ -103,13 +104,13 @@ SDL_Surface * mkSurf(int w, int h)
     return s_format;
 }
 
-#define COORD2ADDR(x_,y_) (y_*params->width+x_)
-
-SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites,
-                              T_MASK_PIXEL * mask){
+SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites) {
     /// Checking for SDL
     if(!SDL_WasInit(0))
         return NULL;
+
+    // Randomizing
+    srand(params->seed + time(0));
 
     genState = GEN_PREPARING;
 
@@ -120,26 +121,30 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites,
     genState = GEN_WORKING;
 
     int x,y;
+    Uint32 rnd = 0;
+
     for(x = 0; x < params->width; ++x)
     {
         progbar = x;
 
         for(y = 0; y < params->height; ++y)
         {
-            if(mask[COORD2ADDR(x,y)] <= sprites->count && mask[COORD2ADDR(x,y)]
-               && isAreaIsFree(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y, params->deadzone))
+            rnd = (Uint32)(rand()%params->intensity);
+
+            if(rnd <= sprites->count && rnd
+               && isAreaIsFree(themap, sprites->surf[rnd - 1], x, y, params->deadzone))
                 {
                     if(params->rotate) // Should sprites be rotated?
                     {
-                        SDL_Surface * temp = rotateSprite(sprites->surf[mask[COORD2ADDR(x,y)] - 1]);
+                        SDL_Surface * temp = rotateSprite(sprites->surf[rnd - 1]);
                         if(!isSpriteIsOutOfBounds(themap, temp, x, y)) blit(themap, temp, x, y);
                         SDL_FreeSurface(temp);
                     }
                     else
                     {
-                        if(!isSpriteIsOutOfBounds(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1]
+                        if(!isSpriteIsOutOfBounds(themap, sprites->surf[rnd - 1]
                                                  , x, y))
-                            blit(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y);
+                            blit(themap, sprites->surf[rnd - 1], x, y);
                     }
                 }
         }

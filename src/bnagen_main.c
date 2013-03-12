@@ -10,7 +10,6 @@
 
 #include "params.h"
 #include "loader.h"
-#include "maskgen.h"
 #include "drawthemap.h"
 #include "state.h"
 #include "help_message.h"
@@ -121,11 +120,6 @@ int drawState_Thread(void * unused)
                 MKTEXTSURF("Loading sprites...");
                 break;
 
-            case GEN_MKMASK:
-
-                MKTEXTSURF("Randomizing...");
-                break;
-
             case GEN_PREPARING:
 
                 MKTEXTSURF("Allocating $$$...");
@@ -220,11 +214,8 @@ int main(int argc, char *argv[])
     if(spr == NULL)
         FATAL_ERROR("Fatal error occured while loading sprites.\n");
 
-    // Creating randomized mask
-    T_MASK_PIXEL *mask = genCreatMask(parm);
-
     // If it's allight, rendering resulting BnA map
-    SDL_Surface * themap = genCreateBnAMap(parm, spr, mask);
+    SDL_Surface * themap = genCreateBnAMap(parm, spr);
 
     if(themap == NULL)
         FATAL_ERROR("Fatal: the map was not created.\n");
@@ -236,7 +227,6 @@ int main(int argc, char *argv[])
 
     // Freeing, etc.
     SDL_FreeSurface(themap);
-    free(mask);
 
     genState = GEN_SHUTDOWN;
     printf("Done.\n");
