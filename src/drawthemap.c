@@ -15,14 +15,36 @@ T_MASK_PIXEL getPixel(SDL_Surface *surface, int x, int y) /* lazyfoo */
 }
 
 /** To avoid sprites crossing at resulting BnA map **/
-T_MASK_PIXEL isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y)
+T_MASK_PIXEL isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y,
+                          int deadzone)
 {
     T_MASK_PIXEL result = 0;
     int xs,ys;
-    for(xs = 0; xs < sprite->w; ++xs)
-        for(ys = 0; ys < sprite->h; ++ys)
-            if(x+xs < targ->w-sprite->w-1 && y+ys < targ->h-sprite->h-1)
-                result |= getPixel(targ, x+xs, y+ys);
+
+    if(deadzone)
+    {
+        for(xs = -deadzone; xs < deadzone; ++xs)
+            for(ys = -deadzone; ys < deadzone; ++ys)
+                if(x+xs >= 0 && x+xs < targ->w && y+ys >= 0 && y+ys < targ->h)
+                    if(getPixel(targ, x+xs, y+ys))
+                    {
+                        result++;
+                        goto leave_point;
+                    }
+    }
+    else
+    {
+        for(xs = 0; xs < sprite->w; ++xs)
+            for(ys = 0; ys < sprite->h; ++ys)
+                if(x+xs < targ->w-sprite->w-1 && y+ys < targ->h-sprite->h-1)
+                    if(getPixel(targ, x+xs, y+ys))
+                    {
+                        result++;
+                        goto leave_point;
+                    }
+    }
+
+    leave_point:
 
     // Avoiding sprites partially leaving the map's boundaries
     result |= x > targ->w-sprite->w-1 ? 1 : 0;
@@ -95,7 +117,7 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites,
         for(y = 0; y < params->height; ++y)
         {
             if(mask[COORD2ADDR(x,y)] <= sprites->count && mask[COORD2ADDR(x,y)]
-               && isAreaIsFree(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y))
+               && isAreaIsFree(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y, params->deadzone))
                 blit(themap, sprites->surf[mask[COORD2ADDR(x,y)] - 1], x, y);
         }
 

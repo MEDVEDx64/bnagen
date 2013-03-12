@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 ## Example startup script for bnagen
 

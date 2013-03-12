@@ -7,7 +7,7 @@ share_path=/usr/share/bnagen
 CC=gcc
 LDFLAGS=-ldl -lm -pthread
 LIBS=-lSDL -lSDLmain -lSDL_image -lSDL_ttf
-CFLAGS=-s -O2 -Wall -DSHARE_DIR=$(share_path)/
+CFLAGS=-s -O2 -Wall -DSHARE_DIR='"$(share_path)/"'
 
 executable=bnagen
 openwith=bnagen-openwith.sh

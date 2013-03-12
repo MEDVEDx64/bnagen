@@ -9,6 +9,7 @@
 #define DEFAULT_INTENSITY   38600
 
 #define DEFAULT_OUT_FN "out.bmp"
+//#define DEFAULT_DEADZONE 16
 
 typedef struct {
     /* Graphics list file name */
@@ -21,6 +22,7 @@ typedef struct {
          int    height;
     unsigned
          int    intensity;
+    int         deadzone;
 }
 t_genParams;
 

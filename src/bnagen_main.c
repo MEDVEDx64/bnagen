@@ -1,9 +1,9 @@
 /** BnA map generator
-    MEDVEDx64, 2013.03.10-11
+    MEDVEDx64, 2013.03.10-12
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.02"
+#define BNAGEN_VERSION "0.03"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -90,7 +90,7 @@ static SDL_Rect pbr; // Progress bar rectangle
 #endif // DRAW_DELAY
 
 // Showin' some stuff into the main window
-int drawState(void * unused)
+int drawState_Thread(void * unused)
 {
     SDL_Color col;
     col.r = 200;
@@ -160,15 +160,46 @@ int drawState(void * unused)
     return 0;
 }
 
+static SDL_Event ev;
+
+int eventsThread(void * unused)
+{
+    while(genState != GEN_SHUTDOWN)
+    {
+        if(SDL_PollEvent(&ev))
+        {
+            if(ev.type == SDL_QUIT)
+            {
+                genState = GEN_SHUTDOWN;
+                printf("Caught quit request.");
+                exit(0);
+            }
+        }
+
+        else SDL_Delay(DRAW_DELAY);
+    }
+
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     /// Looking for '-?' or '--help' argument first
     int a; for(a = 0; a < argc; a++)
+    {
         if(!strcmp(argv[a], "-?") || !strcmp(argv[a], "--help"))
         {
             SHOWHELP;
             return 0;
         }
+
+        /// And for '--version'
+        else if(!strcmp(argv[a], "--version"))
+        {
+            printf("bnagen " BNAGEN_VERSION "\n");
+            return 0;
+        }
+    }
 
     printf("bnagen " BNAGEN_VERSION "\n");
 
@@ -180,7 +211,9 @@ int main(int argc, char *argv[])
     // Starting up graphics and TTF subsystems
     if(initGfx() | initTTF()) return 1;
 
-    SDL_CreateThread(drawState, NULL);
+    // Creating threads
+    SDL_CreateThread(drawState_Thread, NULL);
+    SDL_CreateThread(eventsThread, NULL);
 
     // Loading sprites
     t_genSprites * spr = genLoadSprites(parm->list_fn);

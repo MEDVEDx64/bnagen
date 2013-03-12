@@ -7,12 +7,6 @@
 
 t_genParams * genParseArgs(int argc, char *argv[])
 {
-    /*if(argc < 2)
-    {
-        printf("%s: too few args.\n", __FUNCTION__);
-        return NULL;
-    }*/
-
     genState = GEN_ARGS;
 
     t_genParams * params = malloc(sizeof(t_genParams));
@@ -35,6 +29,10 @@ t_genParams * genParseArgs(int argc, char *argv[])
         if(!strcmp(argv[i], "-I"))
             params->intensity = atoi(argv[i+1]);
 
+        /* Deadzone */
+        if(!strcmp(argv[i], "-d"))
+            params->deadzone = atoi(argv[i+1]);
+
         /* .. and filenames */
         if(!strcmp(argv[i], "-i"))
         {
@@ -56,6 +54,7 @@ t_genParams * genParseArgs(int argc, char *argv[])
     if(!params->seed) params->seed              = DEFAULT_SEED;
     if(!params->intensity) params->intensity    = DEFAULT_INTENSITY;
     if(!params->out_fn) params->out_fn          = DEFAULT_OUT_FN;
+    //if(!params->deadzone) params->deadzone          = DEFAULT_DEADZONE;
 
 
     /* Okay. */

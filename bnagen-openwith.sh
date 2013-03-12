@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 # Once bnagen is installed, you can open your list
 # files using this script
