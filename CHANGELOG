@@ -12,5 +12,6 @@
 0.03
 
 	- Add 'deadzone' feature
+	- Add sprite rotation feature
 	- Add ability to interrupt bnagen while cooking
 	- Remove obsolete maskgen module
