@@ -36,12 +36,12 @@ How to
  - *-r VALUE* — should sprites be randomly rotated?
 
 All these keys are optional, the following defaults may be used instead:
-	width: 1920
-	height: 696
-	sprite list file: sprites.txt
-	seed: 0
-	intensity: 38600 (please note that actual intensity goes lower as it's value is greater!)
-	output bitmap: out.bmp
+ - width: *1920*
+ - height: *696*
+ - sprite list file: *sprites.txt*
+ - seed: *0*
+ - intensity: *38600* (please note that actual intensity goes lower as it's value is greater!)
+ - output bitmap: *out.bmp*
 
 While deadzone isn't specified, an anlernative sprite-placing technique will be used. Deadzone is disabled by default (0 means it's disabled)
 
