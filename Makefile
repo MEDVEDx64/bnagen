@@ -5,7 +5,6 @@ bin_path=/usr/bin
 share_path=/usr/share/bnagen
 
 CC=gcc
-LDFLAGS=-ldl -lm -pthread
 LIBS=-lSDL -lSDLmain -lSDL_image -lSDL_ttf -lSDL_gfx
 CFLAGS=-s -O2 -Wall -DSHARE_DIR='"$(share_path)/"'
 
@@ -13,7 +12,7 @@ executable=bnagen
 openwith=bnagen-openwith.sh
 
 bnagen: $(OBJS)
-	$(CC) -o $(executable) $(CFLAGS) $(LIBS) $(LDFLAGS) $(OBJS)
+	$(CC) -o $(executable) $(CFLAGS) $(LIBS) $(OBJS)
 
 clean:
 	rm $(SRCDIR)/*.o
