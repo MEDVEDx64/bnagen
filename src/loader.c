@@ -28,6 +28,9 @@ t_genSprites * genLoadSprites(const char * list_fn)
         /* Line-by-line reading */
         if(fscanf(f, "%s\n", buf) != 1) continue;
 
+        /* Looking for sharp */
+        if(*buf == '#') continue;
+
         /* Attempting to load a sprite */
         //spr->surf[spr->count] = malloc(sizeof(SDL_Surface));
         spr->surf[spr->count] = IMG_Load(buf);

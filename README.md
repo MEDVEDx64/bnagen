@@ -29,7 +29,7 @@ How to
  - *-w VALUE* — output image width
  - *-h VALUE* — output image height
  - *-i FILENAME* — specify the sprite list filename
- - *-s VALUE* — randomizing factor (seed)
+ - *-s VALUE* — seed
  - *-I VALUE* — intensity of sprites
  - *-o FILENAME* — output bitmap filename
  - *-d VALUE* — deadzone, distance between sprites
@@ -39,7 +39,7 @@ All these keys are optional, the following defaults may be used instead:
  - width: *1920*
  - height: *696*
  - sprite list file: *sprites.txt*
- - seed: *0*
+ - seed: *0* (current UNIX-time will be used)
  - intensity: *38600* (please note that actual intensity goes lower as it's value is greater!)
  - output bitmap: *out.bmp*
 

@@ -9,7 +9,7 @@ usage: %s [OPTIONS ...]\n\
             -w VALUE — output image width\n\
             -h VALUE — output image height\n\
             -i FILENAME — specify the sprite list filename\n\
-            -s VALUE — randomizing factor (seed)\n\
+            -s VALUE — seed\n\
             -I VALUE — intensity\n\
             -o FILENAME — output bitmap filename\n\
             -d VALUE — 'deadzone': distance between sprites\n\
@@ -18,7 +18,7 @@ All these keys are optional, the following defaults may be used instead:\n\
             width: %d\n\
             height: %d\n\
             sprite list file: %s\n\
-            seed: %d\n\
+            seed: %d (current UNIX-time will be used)\n\
             intensity: %d\n\
     (please note that actual intensity goes lower as it's value is greater!)\n\
             output bitmap: %s\n\

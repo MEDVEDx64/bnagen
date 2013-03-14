@@ -24,7 +24,7 @@ Uint32 isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y,
                           int deadzone)
 {
     Uint32 result = 0;
-    int xs,ys;
+    register long xs,ys;
 
     if(deadzone)
     {
@@ -110,7 +110,7 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites) {
         return NULL;
 
     // Randomizing
-    srand(params->seed + time(0));
+    srand(params->seed ? params->seed : time(0));
 
     genState = GEN_PREPARING;
 

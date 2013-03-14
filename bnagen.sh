@@ -2,7 +2,7 @@
 
 ## Example startup script for bnagen
 
-GEN_ARGS="-w 2560 -h 1024 -i list -s 3366 -I 49000 -o bitmap.bmp"
+GEN_ARGS="-w 2560 -h 1024 -i list -s 0 -I 49000 -o bitmap.bmp"
 
 if [ -e /usr/bin/bnagen ]; then
 	bnagen $GEN_ARGS

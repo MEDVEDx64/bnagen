@@ -15,3 +15,9 @@
 	- Add sprite rotation feature
 	- Add ability to interrupt bnagen while cooking
 	- Remove obsolete maskgen module
+
+0.04
+
+	- Improved performance
+	- Add ability to comment lines in sprite list by using sharps
+	- Changed seed attribute behaviour
