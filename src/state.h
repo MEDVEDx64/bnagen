@@ -1,7 +1,7 @@
 #ifndef STATE_H_INCLUDED
 #define STATE_H_INCLUDED
 
-/* State storage */
+/* Application state storage */
 
 extern int genState;        // current application state
 extern int progbar;         // progressbar position
@@ -11,9 +11,12 @@ extern int progbar_max;     // max progressbar value
 enum
 {
     GEN_NOTHING,
-    GEN_ARGS, GEN_SPRITELOAD,
-    GEN_PREPARING, GEN_WORKING, GEN_SAVING,
-    GEN_SHUTDOWN
+    GEN_ARGS,           /// Parsing args
+    GEN_SPRITELOAD,     /// Loading sprites
+    GEN_PREPARING,      /// Allocating a space for the map
+    GEN_WORKING,        /// Rendering
+    GEN_SAVING,         /// Saving in progress
+    GEN_SHUTDOWN        /// It's the time to shut down
 };
 
 #endif // STATE_H_INCLUDED

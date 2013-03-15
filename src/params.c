@@ -7,6 +7,7 @@
 
 t_genParams * genParseArgs(int argc, char *argv[])
 {
+    /// Switching application's state here
     genState = GEN_ARGS;
 
     t_genParams * params = malloc(sizeof(t_genParams));

@@ -25,3 +25,8 @@
 0.04_1
 
 	- Fixed possible rotated sprites crossing
+
+0.04_2
+
+	- Add ability to read sptite list from stdin by using '-' as the file name
+	- Tiny optimizations in map renderer

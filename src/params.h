@@ -1,6 +1,7 @@
 #ifndef PARAMS_H_INCLUDED
 #define PARAMS_H_INCLUDED
 
+/* Default params */
 #define DEFAULT_W 1920
 #define DEFAULT_H 696
 #define DEFAULT_FILENAME "sprites.txt"
@@ -13,13 +14,13 @@
 
 typedef struct {
     /* Graphics list file name */
-    char      * list_fn;
-    char      * out_fn;
+    char      * list_fn;    // List file name
+    char      * out_fn;     // Output map file name
     int         seed;
     unsigned
-         int    width;
+         int    width;      // Map width
     unsigned
-         int    height;
+         int    height;     // Map height
     unsigned
          int    intensity;
     int         deadzone;
@@ -27,7 +28,7 @@ typedef struct {
 }
 t_genParams;
 
-/* null on failure */
+/* Returns null on failure */
 t_genParams * genParseArgs(int argc, char *argv[]);
 
 #endif // PARAMS_H_INCLUDED

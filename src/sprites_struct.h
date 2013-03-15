@@ -1,6 +1,7 @@
 #ifndef SPRITES_STRUCT_H_INCLUDED
 #define SPRITES_STRUCT_H_INCLUDED
 
+// Maximal possible sprites count
 #ifndef MAX_SPRITES
 #   define MAX_SPRITES 0x100
 #endif

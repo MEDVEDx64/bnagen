@@ -9,6 +9,7 @@ usage: %s [OPTIONS ...]\n\
             -w VALUE — output image width\n\
             -h VALUE — output image height\n\
             -i FILENAME — specify the sprite list filename\n\
+                (use '-' to read stdin)\n\
             -s VALUE — seed\n\
             -I VALUE — intensity\n\
             -o FILENAME — output bitmap filename\n\

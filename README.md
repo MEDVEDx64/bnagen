@@ -28,7 +28,7 @@ How to
 *bnagen* is tunable with these command-line keys:
  - *-w VALUE* — output image width
  - *-h VALUE* — output image height
- - *-i FILENAME* — specify the sprite list filename
+ - *-i FILENAME* — specify the sprite list filename (use '-' to read stdin)
  - *-s VALUE* — seed
  - *-I VALUE* — intensity of sprites
  - *-o FILENAME* — output bitmap filename
