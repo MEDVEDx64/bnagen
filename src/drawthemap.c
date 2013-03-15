@@ -131,22 +131,25 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites) {
         {
             rnd = (Uint32)(rand()%params->intensity);
 
-            if(rnd <= sprites->count && rnd
-               && isAreaIsFree(themap, sprites->surf[rnd - 1], x, y, params->deadzone))
+            if(params->rotate) // Should sprites be rotated?
+            {
+                if(rnd <= sprites->count && rnd)
                 {
-                    if(params->rotate) // Should sprites be rotated?
-                    {
-                        SDL_Surface * temp = rotateSprite(sprites->surf[rnd - 1]);
-                        if(!isSpriteIsOutOfBounds(themap, temp, x, y)) blit(themap, temp, x, y);
-                        SDL_FreeSurface(temp);
-                    }
-                    else
-                    {
+                    SDL_Surface * temp = rotateSprite(sprites->surf[rnd - 1]);
+                    if(!isSpriteIsOutOfBounds(themap, temp, x, y) &&
+                        isAreaIsFree(themap, temp, x, y, params->deadzone))
+                            blit(themap, temp, x, y);
+                    SDL_FreeSurface(temp);
+                }
+            }
+            else
+            {
+                if(rnd <= sprites->count && rnd
+                    && isAreaIsFree(themap, sprites->surf[rnd - 1], x, y, params->deadzone))
                         if(!isSpriteIsOutOfBounds(themap, sprites->surf[rnd - 1]
                                                  , x, y))
                             blit(themap, sprites->surf[rnd - 1], x, y);
-                    }
-                }
+            }
         }
 
     }

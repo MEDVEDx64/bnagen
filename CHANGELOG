@@ -21,3 +21,7 @@
 	- Improved performance
 	- Add ability to comment lines in sprite list by using sharps
 	- Changed seed attribute behaviour
+
+0.04_1
+
+	- Fixed possible rotated sprites crossing
