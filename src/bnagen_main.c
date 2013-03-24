@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.04_2"
+#define BNAGEN_VERSION "0.04_3_indev"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>

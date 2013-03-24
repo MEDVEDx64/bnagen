@@ -1,24 +1,12 @@
 #include "drawthemap.h"
 #include "state.h"
+#include "pixel.h"
 
 #include <time.h>
 #include <SDL/SDL_rotozoom.h>
 
 // Sprite rotation macro
 #define rotateSprite(spr) rotozoomSurface(spr, (double)(rand()%360) /* random fotation angle */, 1, SMOOTHING_OFF)
-
-// Returns a pixel's color from SDL_Surface. Ported from TestStuff source code.
-Uint32 getPixel(SDL_Surface *surface, int x, int y) /* lazyfoo */
-{
-    if(x<0 || y<0 || surface == NULL)
-        return 0;
-
-    SDL_LockSurface(surface);
-    Uint32 *pixels = (Uint32*)surface->pixels;
-    SDL_UnlockSurface(surface);
-
-    return pixels[(y*surface->w)+x];
-}
 
 /** To avoid sprites crossing at resulting BnA map **/
 Uint32 isAreaIsFree(SDL_Surface * targ, SDL_Surface * sprite, int x, int y,
