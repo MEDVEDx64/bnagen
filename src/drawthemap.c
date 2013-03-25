@@ -117,7 +117,7 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites) {
     SDL_Surface * themap = mkSurf(params->width, params->height);
     if(themap == NULL) return NULL;
 
-    progbar_max = params->width; // Progress bar's maximum should be equal to map's width
+    progbar_max = params->width * 2; // Progress bar's maximum should be equal to map's width
     genState = GEN_WORKING;
 
     int x,y;

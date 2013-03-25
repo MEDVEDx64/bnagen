@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.04_3_indev"
+#define BNAGEN_VERSION "0.04_4_indev"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -161,6 +161,12 @@ int drawState_Thread(void * unused)
                 PBAR_DRAW; // progress bar
                 break;
 
+            case GEN_INDEXING:
+
+                MKTEXTSURF("Indexing...");
+                PBAR_DRAW;
+                break;
+
             case GEN_SAVING:
 
                 MKTEXTSURF("Saving...");
@@ -254,17 +260,18 @@ int main(int argc, char *argv[])
     if(themap == NULL)
         FATAL_ERROR("Fatal: the map was not created.\n");
 
-    // And saving it into BMP.
-    genState = GEN_SAVING;
-
+    // And saving it.
+    genState = GEN_INDEXING;
     SDL_Palette pal = genScanSurface(themap);
     SDL_Surface * themap_pal = genCreatePalettizedSurface(themap, &pal);
+    SDL_FreeSurface(themap);
 
+    genState = GEN_SAVING;
     if(SDL_SaveBMP(themap_pal, parm->out_fn))
         FATAL_ERROR("Fatal: unable to write the map file.\n");
 
     // Freeing, etc.
-    SDL_FreeSurface(themap);
+    SDL_FreeSurface(themap_pal);
 
     genState = GEN_SHUTDOWN;
     printf("Done.\n");

@@ -15,6 +15,7 @@ enum
     GEN_SPRITELOAD,     /// Loading sprites
     GEN_PREPARING,      /// Allocating a space for the map
     GEN_WORKING,        /// Rendering
+    GEN_INDEXING,       /// Converting into palettized format
     GEN_SAVING,         /// Saving in progress
     GEN_SHUTDOWN        /// It's the time to shut down
 };

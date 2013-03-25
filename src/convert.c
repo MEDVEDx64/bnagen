@@ -1,5 +1,6 @@
 #include "convert.h"
 #include "pixel.h"
+#include "state.h"
 
 #include <malloc.h>
 
@@ -7,51 +8,40 @@ Uint8 asd = 0;
 
 Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
-    /**
-
-    TEST CODE
-    it actually doesn't work
-
-    **/
-
-    Uint32 exa_u = (unsigned)-1;
-    Uint32 exa_u_old = (unsigned)-1;
-    Uint32 exa_d = (unsigned)-1;
-    Uint32 exa_d_old = (unsigned)-1;
-
-    Uint8 candidate_u = 0;
-    Uint8 candidate_d = 0;
+    /** alexx's code **/
 
     Uint8 i;
-    for(i = 0; i < palette->ncolors; ++i)
-    {
-        exa_u_old = exa_u;
-        exa_d_old = exa_d;
+    Uint8 result = 0;
+    SDL_Color src;
+    RGBA_TO_SDL_COLOR(src,src_pixel);
 
-        exa_u = SDL_COLOR_TO_RGBA(palette->colors[i]) - src_pixel;
-        exa_d = src_pixel - SDL_COLOR_TO_RGBA(palette->colors[i]);
+    unsigned int dif1 = 0;
+    unsigned int dif2 = 0;
 
-        if(exa_u >= exa_u_old)
-            exa_u = exa_u_old;
-        else
-            candidate_u = i;
+    for (i = 0; i < palette->ncolors; i++) {
+        dif1 = abs(src.r - palette->colors[result].r);
+        dif1 += abs(src.g - palette->colors[result].g);
+        dif1 += abs(src.b - palette->colors[result].b);
+        dif1 += abs(src.unused - palette->colors[result].unused);
 
-        if(exa_d <= exa_d_old)
-            exa_d = exa_d_old;
-        else
-            candidate_d = i;
+        dif2 = abs(src.r - palette->colors[i].r);
+        dif2 += abs(src.g - palette->colors[i].g);
+        dif2 += abs(src.b - palette->colors[i].b);
+        dif2 += abs(src.unused - palette->colors[i].unused);
+
+        if (dif1 > dif2) result = i;
     }
 
-    if((src_pixel - SDL_COLOR_TO_RGBA(palette->colors[candidate_u]))
-            > src_pixel - SDL_COLOR_TO_RGBA(palette->colors[candidate_d]))
-                return candidate_d;
-    else
-        return candidate_u;
+    return result;
 }
+
+#ifndef SCAN_ATTEMPTS_MULTIPLIER
+#   define SCAN_ATTEMPTS_MULTIPLIER 2
+#endif // SCAN_ATTEMPTS_MULTIPLIER
 
 SDL_Palette genScanSurface(SDL_Surface * surf)
 {
-    int max_attempts = surf->w*8; /// FIXME — should it be different?
+    int max_attempts = surf->w * SCAN_ATTEMPTS_MULTIPLIER;
     SDL_Palette pal;
 
     int i = 0; int z;
@@ -92,7 +82,7 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette)
 {
     // Creating 8-bit blank surface
-    SDL_Surface * result = SDL_CreateRGBSurface(0, source->w, source->h, 8, 0xff000000, 0xff0000, 0xff00, 0xff);
+    SDL_Surface * result = SDL_CreateRGBSurface(0, source->w, source->h, 8, 0, 0, 0, 0);
     SDL_SetPalette(result, SDL_LOGPAL|SDL_PHYSPAL, palette->colors, 0, palette->ncolors);
 
     if(!result)
@@ -101,8 +91,11 @@ SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * pal
     // Filling it with pixels
     register int x,y;
     for(x = 0; x < source->w; ++x)
+    {
         for(y = 0; y < source->h; ++y)
             putPixel8(result, x, y, genGetNearestColor(getPixel32(source, x, y), palette));
+        progbar++;
+    }
 
     return result;
 }
