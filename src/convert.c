@@ -3,43 +3,60 @@
 
 #include <malloc.h>
 
+Uint8 asd = 0;
+
 Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
-    /* Scanning upward and downwards,
-        looking for src_pixel matching with any palette color */
-    Uint32 current_color_upw = src_pixel;
-    Uint32 current_color_dow = src_pixel + 1;
-    int i;
+    /**
 
-    while(1)
+    TEST CODE
+    it actually doesn't work
+
+    **/
+
+    Uint32 exa_u = (unsigned)-1;
+    Uint32 exa_u_old = (unsigned)-1;
+    Uint32 exa_d = (unsigned)-1;
+    Uint32 exa_d_old = (unsigned)-1;
+
+    Uint8 candidate_u = 0;
+    Uint8 candidate_d = 0;
+
+    Uint8 i;
+    for(i = 0; i < palette->ncolors; ++i)
     {
-        for(i = 0; i < palette->ncolors; ++i)
-        {
-            if(current_color_upw == SDL_COLOR_TO_RGBA(palette->colors[i]))
-                return i;
+        exa_u_old = exa_u;
+        exa_d_old = exa_d;
 
-            if(current_color_dow == SDL_COLOR_TO_RGBA(palette->colors[i]))
-                return i;
-        }
+        exa_u = SDL_COLOR_TO_RGBA(palette->colors[i]) - src_pixel;
+        exa_d = src_pixel - SDL_COLOR_TO_RGBA(palette->colors[i]);
 
-        if(current_color_upw != (unsigned)-1) current_color_upw++;
-        if(current_color_dow) current_color_dow--;
+        if(exa_u >= exa_u_old)
+            exa_u = exa_u_old;
+        else
+            candidate_u = i;
 
-        /* Return 0 when nothing found */
-        if(!current_color_dow && current_color_upw == (unsigned)-1)
-            break;
+        if(exa_d <= exa_d_old)
+            exa_d = exa_d_old;
+        else
+            candidate_d = i;
     }
 
-    return 0;
+    if((src_pixel - SDL_COLOR_TO_RGBA(palette->colors[candidate_u]))
+            > src_pixel - SDL_COLOR_TO_RGBA(palette->colors[candidate_d]))
+                return candidate_d;
+    else
+        return candidate_u;
 }
 
 SDL_Palette genScanSurface(SDL_Surface * surf)
 {
-    int max_attempts = surf->w*surf->h;
+    int max_attempts = surf->w*8; /// FIXME — should it be different?
     SDL_Palette pal;
 
     int i = 0; int z;
-    while(i < max_attempts || pal.ncolors <= MAX_PALETTE_COLORS)
+    pal.colors = malloc(sizeof(SDL_Color));
+    while(i < max_attempts && pal.ncolors <= MAX_PALETTE_COLORS)
     {
         // Getting a random pixel from input surface
         Uint32 col = getPixel32(surf, (int)rand()%surf->w, (int)rand()%surf->h);
@@ -48,11 +65,15 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
         z = 0;
         // Checking pixel for existence in palette
         while(z < pal.ncolors)
+        {
             if(SDL_COLOR_TO_RGBA(pal.colors[z]) == col)
             {
                 pixel_exist = 1;
                 break;
             }
+
+            ++z;
+        }
 
         // Appending it to pallette if it still not in
         if(!pixel_exist)
@@ -71,7 +92,17 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette)
 {
     // Creating 8-bit blank surface
+    SDL_Surface * result = SDL_CreateRGBSurface(0, source->w, source->h, 8, 0xff000000, 0xff0000, 0xff00, 0xff);
+    SDL_SetPalette(result, SDL_LOGPAL|SDL_PHYSPAL, palette->colors, 0, palette->ncolors);
 
-    /// TODO
-    return NULL;
+    if(!result)
+        return NULL;
+
+    // Filling it with pixels
+    register int x,y;
+    for(x = 0; x < source->w; ++x)
+        for(y = 0; y < source->h; ++y)
+            putPixel8(result, x, y, genGetNearestColor(getPixel32(source, x, y), palette));
+
+    return result;
 }

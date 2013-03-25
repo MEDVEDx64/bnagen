@@ -12,6 +12,7 @@
 #include "loader.h"
 #include "drawthemap.h"
 #include "state.h"
+#include "convert.h"
 #include "help_message.h"
 
 #include <stdio.h>
@@ -255,7 +256,11 @@ int main(int argc, char *argv[])
 
     // And saving it into BMP.
     genState = GEN_SAVING;
-    if(SDL_SaveBMP(themap, parm->out_fn))
+
+    SDL_Palette pal = genScanSurface(themap);
+    SDL_Surface * themap_pal = genCreatePalettizedSurface(themap, &pal);
+
+    if(SDL_SaveBMP(themap_pal, parm->out_fn))
         FATAL_ERROR("Fatal: unable to write the map file.\n");
 
     // Freeing, etc.

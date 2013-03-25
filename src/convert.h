@@ -25,9 +25,9 @@
 #define RGBA_TO_SDL_COLOR(color,rgba)   \
     do                                  \
     {                                   \
-        color.r = rgba >> 24;           \
-        color.g = rgba >> 16;           \
-        color.b = rgba >> 8;            \
+        color.r = rgba >> 16;           \
+        color.g = rgba >> 8;            \
+        color.b = rgba;                 \
     } while(0)
 
 /** Create surface's 8-bit palette **/
