@@ -81,6 +81,8 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
 
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette)
 {
+    /// TODO: optimizations here
+
     // Creating 8-bit blank surface
     SDL_Surface * result = SDL_CreateRGBSurface(0, source->w, source->h, 8, 0, 0, 0, 0);
     SDL_SetPalette(result, SDL_LOGPAL|SDL_PHYSPAL, palette->colors, 0, palette->ncolors);

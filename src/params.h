@@ -9,7 +9,7 @@
 #define DEFAULT_SEED        0
 #define DEFAULT_INTENSITY   38600
 
-#define DEFAULT_OUT_FN "out.bmp"
+#define DEFAULT_OUT_FN "out.png"
 //#define DEFAULT_DEADZONE 16
 
 typedef struct {

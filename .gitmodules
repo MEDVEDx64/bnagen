@@ -1,0 +1,3 @@
+[submodule "src/SDL_imagesave"]
+	path = src/SDL_imagesave
+	url = git://github.com/TheWatcher/SDL_imagesave.git

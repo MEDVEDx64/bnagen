@@ -3,10 +3,12 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.04_4_indev"
+#define BNAGEN_VERSION "0.05"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+
+#include "SDL_imagesave/IMG_savepng.h"
 
 #include "params.h"
 #include "loader.h"
@@ -267,7 +269,7 @@ int main(int argc, char *argv[])
     SDL_FreeSurface(themap);
 
     genState = GEN_SAVING;
-    if(SDL_SaveBMP(themap_pal, parm->out_fn))
+    if(IMG_SavePNG(parm->out_fn, themap_pal, 9))
         FATAL_ERROR("Fatal: unable to write the map file.\n");
 
     // Freeing, etc.

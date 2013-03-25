@@ -5,7 +5,7 @@
         surface converter **/
 
 // Maximal colors count in palette
-#define DEFAULT_PALETTE_COLORS 112
+#define DEFAULT_PALETTE_COLORS 110
 #ifndef MAX_PALETTE_COLORS
 #   define MAX_PALETTE_COLORS DEFAULT_PALETTE_COLORS
 #else

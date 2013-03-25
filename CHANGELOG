@@ -30,3 +30,7 @@
 
 	- Add ability to read sptite list from stdin by using '-' as the file name
 	- Tiny optimizations in map renderer
+
+0.05
+
+	- Now it writes indexed PNG format
