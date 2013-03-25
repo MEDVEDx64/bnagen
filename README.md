@@ -20,7 +20,8 @@ In most of Debian-like systems this all may be installed via *apt*:
 Next, you have to run `make` and `sudo make install`.
 
 If you have any problems on build stage, try to compile it by hand:
-`cd src && cc *.c -o ../bnagen -s -O2 -lSDL -lSDLmain -lSDL_image -lSDL_ttf -ldl -lm -pthread && cd .. && sudo make install`
+`cd src && cc *.c -o ../bnagen -s -O2 -lSDL -lSDLmain -lSDL_image -lSDL_ttf -I/usr/include/SDL/ -I./src/SDL_imagesave/`
+`cd .. && sudo make install`
 
 Note that installation is optional — you can build *bnagen* by `make` and run it from current directory: `./bnagen`.
 Also note that you can uninstall *bnagen* from your system by typing `sudo make uninstall`.
