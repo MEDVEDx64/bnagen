@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.05"
+#define BNAGEN_VERSION "0.05_1_indev"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -158,7 +158,7 @@ int drawState_Thread(void * unused)
             case GEN_WORKING:
 
                 // Cooking text surface
-                sprintf(text_buf, "Rendering: %d/%d", progbar, progbar_max);
+                sprintf(text_buf, "Rendering: %d/%d", progbar, progbar_max/2);
                 MKTEXTSURF(text_buf);
                 PBAR_DRAW; // progress bar
                 break;

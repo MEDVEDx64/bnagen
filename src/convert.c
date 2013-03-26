@@ -4,30 +4,25 @@
 
 #include <malloc.h>
 
-Uint8 asd = 0;
-
-Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
+static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
     /** alexx's code **/
 
-    Uint8 i;
-    Uint8 result = 0;
-    SDL_Color src;
+    register Uint8 i;
+    static Uint8 result = 0;
+    static SDL_Color src;
     RGBA_TO_SDL_COLOR(src,src_pixel);
 
-    unsigned int dif1 = 0;
-    unsigned int dif2 = 0;
-
-    for (i = 0; i < palette->ncolors; i++) {
+    static unsigned int dif1 = 0;
+    static unsigned int dif2 = 0;
+    for (i = 1; i < palette->ncolors; i++) {
         dif1 = abs(src.r - palette->colors[result].r);
         dif1 += abs(src.g - palette->colors[result].g);
         dif1 += abs(src.b - palette->colors[result].b);
-        dif1 += abs(src.unused - palette->colors[result].unused);
 
         dif2 = abs(src.r - palette->colors[i].r);
         dif2 += abs(src.g - palette->colors[i].g);
         dif2 += abs(src.b - palette->colors[i].b);
-        dif2 += abs(src.unused - palette->colors[i].unused);
 
         if (dif1 > dif2) result = i;
     }
@@ -38,6 +33,33 @@ Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 #ifndef SCAN_ATTEMPTS_MULTIPLIER
 #   define SCAN_ATTEMPTS_MULTIPLIER 2
 #endif // SCAN_ATTEMPTS_MULTIPLIER
+
+
+/*
+SDL_Palette genSortPalette(SDL_Palette * pal)
+{
+    SDL_Palette res;
+    res.ncolors = pal->ncolors;
+    int i,j;
+    static unsigned int dif1 = 0;
+    static unsigned int dif2 = 0;
+    for (i = 0; i<res.ncolors; i++) {
+        res.colors[i] = pal->colors[0];
+        for (j = 1; j<pal->ncolors; j++) {
+            dif1 = abs(pal->colors[i].r - pal->colors[result].r);
+            dif1 += abs(src.g - pal->colors[result].g);
+            dif1 += abs(src.b - pal->colors[result].b);
+
+            dif2 = abs(src.r - pal->colors[i].r);
+            dif2 += abs(src.g - pal->colors[i].g);
+            dif2 += abs(src.b - pal->colors[i].b);
+
+            if (dif1 > dif2) res.colors[i] = pal->colors[j];
+        }
+    }
+    return res;
+}
+*/
 
 SDL_Palette genScanSurface(SDL_Surface * surf)
 {
@@ -81,7 +103,12 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
 
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette)
 {
-    /// TODO: optimizations here
+    if(palette->ncolors > (Uint8)-1){
+        printf("%s: alert: abnormal palette colors count detected (%d). "
+               "Fixing it, but proceeding may result in fault!\n",
+               __FUNCTION__, palette->ncolors);
+        palette->ncolors = MAX_PALETTE_COLORS;
+    }
 
     // Creating 8-bit blank surface
     SDL_Surface * result = SDL_CreateRGBSurface(0, source->w, source->h, 8, 0, 0, 0, 0);
@@ -91,12 +118,17 @@ SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * pal
         return NULL;
 
     // Filling it with pixels
-    register int x,y;
-    for(x = 0; x < source->w; ++x)
+    register long i;
+    register long z = 0;
+    for(i = 0; i < source->w*source->h; ++i)
     {
-        for(y = 0; y < source->h; ++y)
-            putPixel8(result, x, y, genGetNearestColor(getPixel32(source, x, y), palette));
-        progbar++;
+        putPixel8s(result, i, genGetNearestColor(getPixel32s(source, i), palette));
+
+        if(++z > source->h)
+        {
+            ++progbar;
+            z = 0;
+        }
     }
 
     return result;

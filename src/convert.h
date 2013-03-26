@@ -34,7 +34,7 @@
 SDL_Palette genScanSurface(SDL_Surface * surf);
 
 /** Return color nearest to src_pixel and available in palette **/
-Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette);
+//Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette);
 
 /** Build the final palettized surface **/
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette);
