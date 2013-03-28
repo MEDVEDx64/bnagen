@@ -34,33 +34,6 @@ static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 #   define SCAN_ATTEMPTS_MULTIPLIER 2
 #endif // SCAN_ATTEMPTS_MULTIPLIER
 
-
-/*
-SDL_Palette genSortPalette(SDL_Palette * pal)
-{
-    SDL_Palette res;
-    res.ncolors = pal->ncolors;
-    int i,j;
-    static unsigned int dif1 = 0;
-    static unsigned int dif2 = 0;
-    for (i = 0; i<res.ncolors; i++) {
-        res.colors[i] = pal->colors[0];
-        for (j = 1; j<pal->ncolors; j++) {
-            dif1 = abs(pal->colors[i].r - pal->colors[result].r);
-            dif1 += abs(src.g - pal->colors[result].g);
-            dif1 += abs(src.b - pal->colors[result].b);
-
-            dif2 = abs(src.r - pal->colors[i].r);
-            dif2 += abs(src.g - pal->colors[i].g);
-            dif2 += abs(src.b - pal->colors[i].b);
-
-            if (dif1 > dif2) res.colors[i] = pal->colors[j];
-        }
-    }
-    return res;
-}
-*/
-
 SDL_Palette genScanSurface(SDL_Surface * surf)
 {
     int max_attempts = surf->w * SCAN_ATTEMPTS_MULTIPLIER;
