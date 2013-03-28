@@ -39,4 +39,7 @@ SDL_Palette genScanSurface(SDL_Surface * surf);
 /** Build the final palettized surface **/
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette);
 
+/** Palette colors sorting by AlexX **/
+SDL_Palette genSortPalette(SDL_Palette * pal);
+
 #endif // CONVERT_H_INCLUDED
