@@ -90,12 +90,25 @@ SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * pal
     if(!result)
         return NULL;
 
+    // Copying
+    SDL_LockSurface(source);
+    Uint32 * srcbuf = source->pixels;
+    SDL_UnlockSurface(source);
+
+    SDL_LockSurface(result);
+    Uint8 * dstbuf = result->pixels;
+    SDL_UnlockSurface(result);
+
     // Filling it with pixels
     register long i;
     register long z = 0;
-    for(i = 0; i < source->w*source->h; ++i)
+
+    long pixels_n = source->w*source->h;
+
+    for(i = 0; i < pixels_n; ++i)
     {
-        putPixel8s(result, i, genGetNearestColor(getPixel32s(source, i), palette));
+        //putPixel8s(result, i, genGetNearestColor(getPixel32s(source, i), palette));
+        dstbuf[i] = genGetNearestColor(srcbuf[i], palette);
 
         if(++z > source->h)
         {
