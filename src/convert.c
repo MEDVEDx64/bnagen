@@ -4,57 +4,27 @@
 
 #include <malloc.h>
 
+#define compare_color(x,y) ( abs((x)->r - (y)->r) + abs((x)->g - (y)->g) + abs((x)->b - (y)->b) )
+
 static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
     /** alexx's code **/
     SDL_Color src;
     RGBA_TO_SDL_COLOR(src,src_pixel);
-    int difc, difl, difr;
-
-    int step = 1;
-    int i = palette->ncolors/2;
-    do {
-        step++;
-        if (i == 0 || i == palette->ncolors-1 ) return i;
-        difc = abs(src.r - palette->colors[i].r) + abs(src.g - palette->colors[i].g) + abs(src.b - palette->colors[i].b);
-        difl = abs(src.r - palette->colors[i-1].r) + abs(src.g - palette->colors[i-1].g) + abs(src.b - palette->colors[i-1].b);
-        difr = abs(src.r - palette->colors[i+1].r) + abs(src.g - palette->colors[i+1].g) + abs(src.b - palette->colors[i+1].b);
-        if (difc < difl)
-            if (difc < difr) return i;
-            else {i += (palette->ncolors/pow(2, step)+0.5);}
-        else
-            if (difl < difr) {i -= (palette->ncolors/pow(2, step)+0.5);}
-            else {i += (palette->ncolors/pow(2, step)+0.5);}
-    } while (1);
-/*
-
-
 
     register Uint8 i;
     static Uint8 result = 0;
 
-
-    static unsigned int dif1 = 0;
-    static unsigned int dif2 = 0;
     for (i = 1; i < palette->ncolors; i++) {
-        dif1 = abs(src.r - palette->colors[result].r);
-        dif1 += abs(src.g - palette->colors[result].g);
-        dif1 += abs(src.b - palette->colors[result].b);
-
-        dif2 = abs(src.r - palette->colors[i].r);
-        dif2 += abs(src.g - palette->colors[i].g);
-        dif2 += abs(src.b - palette->colors[i].b);
-
-        if (dif1 > dif2) result = i;
+        if (compare_color(&src, &(palette->colors[result])) >  compare_color(&src, &(palette->colors[i]))) result = i;
     }
 
-    return result;*/
+    return result;
 }
 
 #ifndef SCAN_ATTEMPTS_MULTIPLIER
 #   define SCAN_ATTEMPTS_MULTIPLIER 2
 #endif // SCAN_ATTEMPTS_MULTIPLIER
-
 
 static inline int search_color(unsigned char r, unsigned char g, unsigned char b, SDL_Palette *pal)
 {
@@ -63,15 +33,6 @@ static inline int search_color(unsigned char r, unsigned char g, unsigned char b
         if (pal->colors[i].r == r && pal->colors[i].g == g && pal->colors[i].b == b) return 1;
     }
 
-    return 0;
-}
-
-/*возращает 1, если первый цвет меньше чем второй и 0 в противном случае*/
-static inline int min(SDL_Color *c1, SDL_Color *c2)
-{
-    if (c1->r < c2->r) return 1;
-    if (c1->g < c2->g) return 1;
-    if (c1->b <= c2->b) return 1;
     return 0;
 }
 
@@ -100,7 +61,7 @@ printf("1\n");
 
     int t = 0;
     for (i = 0; i<0xff; i++) {
-        ///printf("i = %d\n", i);
+        printf("i = %d\n", i);
         for (j = 0; j<0xff; j++) {
             for (k = 0; k<0xff; k++) {
                 //поиск цвета 0xijk00 в pal
