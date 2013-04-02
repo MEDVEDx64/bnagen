@@ -12,7 +12,7 @@ static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
     if (src_pixel == 0x00000000) return 0; //кеш чёрного цвета
 
     register Uint8 i;
-    Uint8 result = 0;
+    Uint8 result = 1;
     static SDL_Color src;
     RGBA_TO_SDL_COLOR(src,src_pixel);
 
