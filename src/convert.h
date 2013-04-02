@@ -19,7 +19,7 @@
 
 /** Convert SDL_Color struct to RGBA integer **/
 #define SDL_COLOR_TO_RGBA(color) \
-    ( (color.b << 8) | (color.g << 16) | (color.r << 24) )
+    ( (color.b << 8) | (color.g << 16) | (color.r << 24)  )
 
 /** Convert RGBA back to SDL_Color **/
 #define RGBA_TO_SDL_COLOR(color,rgba)   \
@@ -40,6 +40,6 @@ SDL_Palette genScanSurface(SDL_Surface * surf);
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette);
 
 /** Palette colors sorting by AlexX **/
-SDL_Palette genSortPalette(SDL_Palette * pal);
+void genSortPalette(SDL_Palette * pal);
 
 #endif // CONVERT_H_INCLUDED

@@ -265,8 +265,8 @@ int main(int argc, char *argv[])
     // And saving it.
     genState = GEN_INDEXING;
     SDL_Palette pal = genScanSurface(themap);
-    SDL_Palette pal_sorted = genSortPalette(&pal);
-    SDL_Surface * themap_pal = genCreatePalettizedSurface(themap, &pal_sorted);
+    genSortPalette(&pal);
+    SDL_Surface * themap_pal = genCreatePalettizedSurface(themap, &pal);
     SDL_FreeSurface(themap);
 
     genState = GEN_SAVING;

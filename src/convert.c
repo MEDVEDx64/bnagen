@@ -8,14 +8,17 @@
 
 static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
+
     /** alexx's code **/
     SDL_Color src;
     RGBA_TO_SDL_COLOR(src,src_pixel);
 
     register Uint8 i;
-    static Uint8 result = 0;
+    Uint8 result = 0;
 
     for (i = 1; i < palette->ncolors; i++) {
+        ///if (compare_color(&src, &(palette->colors[i])) > compare_color(&src, &(palette->colors[i-1]))) return i-1;
+
         if (compare_color(&src, &(palette->colors[result])) >  compare_color(&src, &(palette->colors[i]))) result = i;
     }
 
@@ -36,46 +39,38 @@ static inline int search_color(unsigned char r, unsigned char g, unsigned char b
     return 0;
 }
 
-SDL_Palette genSortPalette(SDL_Palette * pal)
+static int less_color(SDL_Color *a, SDL_Color *b)
 {
-    pal->ncolors = 111; /// КОСТЫЛЬ!!!
-    printf("сортировка...\n");
-    SDL_Palette res;
-    res.ncolors = pal->ncolors;
-/*
-    int i, j;
-    res.colors[0] = pal->colors[0];
-    for (i = 1; i<pal->ncolors; i++)
-        if (min(&pal->colors[i], &res.colors[0])) res.colors[0] = pal->colors[i];
-printf("1\n");
-    for (i = 1; i<res.ncolors; i++) {
-        res.colors[i].r = 255;
-        res.colors[i].g = 255;
-        res.colors[i].b = 255;
-        for (j = 0; j<pal->ncolors; j++) {
-            if (min(&pal->colors[j],&res.colors[i]) && min(&res.colors[i-1], &pal->colors[j])) res.colors[i] = pal->colors[j];
-        }
-    }
-*/
-    int i,j,k;
+    static SDL_Color null_color = {0,0,0,0};
+    return compare_color(a, &null_color) < compare_color(b, &null_color);
+}
 
-    int t = 0;
-    for (i = 0; i<0xff; i++) {
-        printf("i = %d\n", i);
-        for (j = 0; j<0xff; j++) {
-            for (k = 0; k<0xff; k++) {
-                //поиск цвета 0xijk00 в pal
-                if (search_color(i,j,k,pal)) {
-                    res.colors[t].b = k;
-                    res.colors[t].g = j;
-                    res.colors[t].r = i;
-                    t++;
-                }
-            }
+void genSortPalette(SDL_Palette * pal)
+{
+    int i;
+    int n = pal->ncolors;
+
+    for (i = 0; i<n; i++) {
+        //находим минимум от i элемента до n элемента
+        int nmin = i;
+        int j;
+        for (j = i+1; j<n; j++) {
+            if (less_color(&pal->colors[j], &pal->colors[nmin])) nmin = j;
         }
+
+        //заменяем nmin элемент с i
+        char tmp = pal->colors[i].r;
+        pal->colors[i].r = pal->colors[nmin].r;
+        pal->colors[nmin].r = tmp;
+
+        tmp = pal->colors[i].g;
+        pal->colors[i].g = pal->colors[nmin].g;
+        pal->colors[nmin].g = tmp;
+
+        tmp = pal->colors[i].b;
+        pal->colors[i].b = pal->colors[nmin].b;
+        pal->colors[nmin].b = tmp;
     }
-    printf("done.\n");
-    return res;
 }
 
 SDL_Palette genScanSurface(SDL_Surface * surf)
@@ -83,39 +78,25 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
     int max_attempts = surf->w * SCAN_ATTEMPTS_MULTIPLIER;
     SDL_Palette pal;
 
-    int i = 0; int z;
-    pal.colors = malloc(sizeof(SDL_Color));
-    while(i < max_attempts && pal.ncolors <= MAX_PALETTE_COLORS)
+    int i = 0; int z = 0;
+    pal.colors = calloc(sizeof(SDL_Color), (unsigned char)-1);
+    pal.ncolors = 0;
+
+    while(i++ < max_attempts && pal.ncolors <= MAX_PALETTE_COLORS)
     {
         // Getting a random pixel from input surface
-        Uint32 col = getPixel32(surf, (int)rand()%surf->w, (int)rand()%surf->h);
+        SDL_Color col;
+        unsigned int c = getPixel32(surf, (int)rand()%surf->w, (int)rand()%surf->h);
+        RGBA_TO_SDL_COLOR(col,c);
 
-        int pixel_exist = 0;
-        z = 0;
-        // Checking pixel for existence in palette
-        while(z < pal.ncolors)
-        {
-            if(SDL_COLOR_TO_RGBA(pal.colors[z]) == col)
-            {
-                pixel_exist = 1;
-                break;
-            }
+        for (z = 0; z < pal.ncolors; z++)
+            if (col.r == pal.colors[z].r && col.g == pal.colors[z].g && col.b == pal.colors[z].b) break;
 
-            ++z;
-        }
+        if (z < pal.ncolors) continue; //pixel exist!
 
-        // Appending it to pallette if it still not in
-        if(!pixel_exist)
-        {
-            pal.ncolors++;
-            pal.colors = realloc(pal.colors, pal.ncolors*sizeof(SDL_Color));
-            RGBA_TO_SDL_COLOR(pal.colors[pal.ncolors-1], col);
-        }
-
-        i++;
+        pal.colors[pal.ncolors++] = col;
     }
 
-    printf(">>> %d [Kill me! Im at %d in %s!]\n", pal.ncolors, __LINE__, __FILE__);
     return pal;
 }
 
