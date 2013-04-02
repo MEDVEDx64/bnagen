@@ -1,46 +1,46 @@
-0.01-130311-draft
+0.01-130311-draft (2013-03-11)
 
 	- First working version
 
-0.02
+0.02 (2013-03-11)
 
 	- Help message is now can be called using '-?' or '--help' arguments
 	- Now it's REALLY random
 	- Fix segfault in situation, when the map has failed to create 'cause of too large width or height specified
 	- Maximal sprites count changed and now it can be redefined while re-compilation
 
-0.03
+0.03 (2013-03-12)
 
 	- Add 'deadzone' feature
 	- Add sprite rotation feature
 	- Add ability to interrupt bnagen while cooking
 	- Remove obsolete maskgen module
 
-0.04
+0.04 (2013-03-13)
 
 	- Improved performance
 	- Add ability to comment lines in sprite list by using sharps
 	- Changed seed attribute behaviour
 
-0.04_1
+0.04_1 (2013-03-15)
 
 	- Fixed possible rotated sprites crossing
 
-0.04_2
+0.04_2 (2013-03-15)
 
 	- Add ability to read sptite list from stdin by using '-' as the file name
 	- Tiny optimizations in map renderer
 
-0.05
+0.05 (2013-03-25)
 
 	- Now it writes indexed PNG format
 
-0.05_1
+0.05_1 (2013-03-28)
 
 	- Fixed wrong progress bar values on 'rendering' stage
 	- Removed unused `Uint8 asd` from convert.c
 
-0.06
+0.06 (2013-04-02)
 
 	- RGB to 8-bit conversion optimizations:
 		- Black color caching
