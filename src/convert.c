@@ -8,7 +8,6 @@
 
 static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
-
     /** alexx's code **/
     SDL_Color src;
     RGBA_TO_SDL_COLOR(src,src_pixel);
@@ -20,6 +19,7 @@ static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
         ///if (compare_color(&src, &(palette->colors[i])) > compare_color(&src, &(palette->colors[i-1]))) return i-1;
 
         if (compare_color(&src, &(palette->colors[result])) >  compare_color(&src, &(palette->colors[i]))) result = i;
+        //else return result;
     }
 
     return result;
@@ -89,8 +89,10 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
         unsigned int c = getPixel32(surf, (int)rand()%surf->w, (int)rand()%surf->h);
         RGBA_TO_SDL_COLOR(col,c);
 
-        for (z = 0; z < pal.ncolors; z++)
-            if (col.r == pal.colors[z].r && col.g == pal.colors[z].g && col.b == pal.colors[z].b) break;
+        for (z = 0; z < pal.ncolors; z++) {
+            if (compare_color(&col, &(pal.colors[z])) < 40) break;
+            ///if (col.r == pal.colors[z].r && col.g == pal.colors[z].g && col.b == pal.colors[z].b) break;
+        }
 
         if (z < pal.ncolors) continue; //pixel exist!
 
