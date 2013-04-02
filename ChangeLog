@@ -42,6 +42,8 @@
 
 0.06
 
-        - Добавлено кеширование чёрного цвета
-        - исправлен баг неинициализированной переменной при генерации палитры
-        - полностью произведён рефакторинг 2х функций: genGetNearestColor, genCreatePalettizedSurface
+	- RGB to 8-bit conversion optimizations:
+		- Black color caching
+		- Fixed uninitialized ncolors field
+		- genNearColor and genCreatePelettizedColors has been completely refactored
+

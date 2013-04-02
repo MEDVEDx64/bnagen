@@ -9,7 +9,7 @@
 static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
     /** alexx's code **/
-    if (src_pixel == 0x00000000) return 0; //кеш чёрного цвета
+    if (src_pixel == 0x00000000) return 0; // black color caching
 
     register Uint8 i;
     Uint8 result = 1;
@@ -34,9 +34,9 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
     int i = 1;
     int z = 0;
     pal.colors = calloc(sizeof(SDL_Color), (unsigned char)-1);
-    pal.ncolors = 1; 
+    pal.ncolors = 1;
 
-    //чёрный цвет по умолчанию первый
+    // black color by default
     pal.colors[0].r = 0;
     pal.colors[0].g = 0;
     pal.colors[0].b = 0;
