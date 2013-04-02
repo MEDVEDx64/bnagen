@@ -39,3 +39,9 @@
 
 	- Fixed wrong progress bar values on 'rendering' stage
 	- Removed unused `Uint8 asd` from convert.c
+
+0.06
+
+        - Добавлено кеширование чёрного цвета
+        - исправлен баг неинициализированной переменной при генерации палитры
+        - полностью произведён рефакторинг 2х функций: genGetNearestColor, genCreatePalettizedSurface
