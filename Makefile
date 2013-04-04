@@ -1,7 +1,8 @@
 SRCDIR=src
 SDL_SAVEIMAGE_DIR=$(SRCDIR)/SDL_imagesave
 OBJS=$(SRCDIR)/bnagen_main.o $(SRCDIR)/drawthemap.o $(SRCDIR)/loader.o $(SRCDIR)/params.o \
-	$(SRCDIR)/convert.o $(SRCDIR)/pixel.o $(SDL_SAVEIMAGE_DIR)/IMG_savepng.o
+	$(SRCDIR)/convert.o $(SRCDIR)/state.o $(SRCDIR)/logging.o \
+	$(SRCDIR)/pixel.o $(SDL_SAVEIMAGE_DIR)/IMG_savepng.o
 
 bin_path=/usr/bin
 share_path=/usr/share/bnagen
