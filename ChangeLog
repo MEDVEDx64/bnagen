@@ -47,3 +47,6 @@
 		- Fixed uninitialized ncolors field
 		- genNearColor and genCreatePelettizedColors has been completely refactored
 
+0.07 (2013-04-04)
+
+	- Redesigned logging
