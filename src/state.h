@@ -20,4 +20,6 @@ enum
     GEN_SHUTDOWN        /// It's the time to shut down
 };
 
+void genSetState(char newst); /// Switch state and print it into the log
+
 #endif // STATE_H_INCLUDED

@@ -4,11 +4,12 @@
 
 #include "loader.h"
 #include "state.h"
+#include "logging.h"
 
 t_genSprites * genLoadSprites(const char * list_fn)
 {
     /// Switching application's state here
-    genState = GEN_SPRITELOAD;
+    genSetState(GEN_SPRITELOAD);
     FILE *f;
 
     /* Reading stdin, when '-' is file name */
@@ -48,8 +49,11 @@ t_genSprites * genLoadSprites(const char * list_fn)
         spr->count++;
     }
 
-    printf("%s: successfully loaded %d sprites.\n",
+    char buff[0x500];
+    sprintf(buff, "%s: successfully loaded %d sprites.",
            __FUNCTION__, spr->count);
+    genPrint(buff);
+
     free(buf);
     return spr;
 }

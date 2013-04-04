@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.06"
+#define BNAGEN_VERSION "0.07"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -15,6 +15,7 @@
 #include "drawthemap.h"
 #include "state.h"
 #include "convert.h"
+#include "logging.h"
 #include "help_message.h"
 
 #include <stdio.h>
@@ -246,6 +247,7 @@ int main(int argc, char *argv[])
 
     // Starting up graphics and TTF subsystems
     if(initGfx() | initTTF()) return 1;
+    genStartLogging();
 
     // Creating threads
     SDL_CreateThread(drawState_Thread, NULL);
@@ -263,12 +265,12 @@ int main(int argc, char *argv[])
         FATAL_ERROR("Fatal: the map was not created.\n");
 
     // And saving it.
-    genState = GEN_INDEXING;
+    genSetState(GEN_INDEXING);
     SDL_Palette pal = genScanSurface(themap);
     SDL_Surface * themap_pal = genCreatePalettizedSurface(themap, &pal);
     SDL_FreeSurface(themap);
 
-    genState = GEN_SAVING;
+    genSetState(GEN_SAVING);
     if(IMG_SavePNG(parm->out_fn, themap_pal, 9))
         FATAL_ERROR("Fatal: unable to write the map file.\n");
 
@@ -276,6 +278,6 @@ int main(int argc, char *argv[])
     SDL_FreeSurface(themap_pal);
 
     genState = GEN_SHUTDOWN;
-    printf("Done.\n");
+    printf("Done.\nIt took %u milliseconds.", SDL_GetTicks());
     return 0;
 }

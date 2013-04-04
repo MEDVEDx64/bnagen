@@ -1,6 +1,7 @@
 #include "convert.h"
 #include "pixel.h"
 #include "state.h"
+#include "logging.h"
 
 #include <malloc.h>
 
@@ -63,9 +64,11 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
 SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * palette)
 {
     if(palette->ncolors > (Uint8)-1){
-        printf("%s: alert: abnormal palette colors count detected (%d). "
-               "Fixing it, but proceeding may result in fault!\n",
+            char buf[0x500];
+        sprintf(buf, "%s: alert: abnormal palette colors count detected (%d). "
+               "Fixing it, but proceeding may result in fault!",
                __FUNCTION__, palette->ncolors);
+        genPrint(buf);
         palette->ncolors = MAX_PALETTE_COLORS;
     }
 

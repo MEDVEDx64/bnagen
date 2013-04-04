@@ -1,6 +1,7 @@
 #include "drawthemap.h"
 #include "state.h"
 #include "pixel.h"
+#include "logging.h"
 
 #include <time.h>
 #include <SDL/SDL_rotozoom.h>
@@ -92,7 +93,9 @@ SDL_Surface * mkSurf(int w, int h)
                                 rmask, gmask, bmask, amask);
     if(s == NULL)
     {
-        printf("%s: error occured while attempting to allocate a space for the map: %s\n", __FUNCTION__, SDL_GetError());
+        char buf[0x500];
+        sprintf(buf, "%s: error occured while attempting to allocate a space for the map: %s", __FUNCTION__, SDL_GetError());
+        genPrint(buf);
         return NULL;
     }
 
@@ -112,13 +115,13 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites) {
     srand(params->seed ? params->seed : time(0));
 
     /// Switching application's state here
-    genState = GEN_PREPARING;
+    genSetState(GEN_PREPARING);
 
     SDL_Surface * themap = mkSurf(params->width, params->height);
     if(themap == NULL) return NULL;
 
     progbar_max = params->width * 2; // Progress bar's maximum should be equal to map's width
-    genState = GEN_WORKING;
+    genSetState(GEN_WORKING);
 
     int x,y;
     Uint32 rnd = 0; // A random number
