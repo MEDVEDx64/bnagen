@@ -9,13 +9,15 @@
 static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 {
     /** alexx's code **/
+    if (src_pixel == 0x00000000) return 0;
+
     SDL_Color src;
     RGBA_TO_SDL_COLOR(src,src_pixel);
 
     register Uint8 i;
-    Uint8 result = 0;
+    Uint8 result = 1;
 
-    for (i = 1; i < palette->ncolors; i++) {
+    for (i = 2; i < palette->ncolors; i++) {
         ///if (compare_color(&src, &(palette->colors[i])) > compare_color(&src, &(palette->colors[i-1]))) return i-1;
 
         if (compare_color(&src, &(palette->colors[result])) >  compare_color(&src, &(palette->colors[i]))) result = i;
@@ -50,7 +52,7 @@ void genSortPalette(SDL_Palette * pal)
     int i;
     int n = pal->ncolors;
 
-    for (i = 0; i<n; i++) {
+    for (i = 1; i<n; i++) {
         //находим минимум от i элемента до n элемента
         int nmin = i;
         int j;
@@ -78,9 +80,15 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
     int max_attempts = surf->w * SCAN_ATTEMPTS_MULTIPLIER;
     SDL_Palette pal;
 
-    int i = 0; int z = 0;
+    int i = 1;
+    int z = 0;
     pal.colors = calloc(sizeof(SDL_Color), (unsigned char)-1);
-    pal.ncolors = 0;
+    pal.ncolors = 1;
+
+    ///чёрный цвет по умолчанию первый
+    pal.colors[0].r = 0;
+    pal.colors[0].g = 0;
+    pal.colors[0].b = 0;
 
     while(i++ < max_attempts && pal.ncolors <= MAX_PALETTE_COLORS)
     {
@@ -90,7 +98,7 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
         RGBA_TO_SDL_COLOR(col,c);
 
         for (z = 0; z < pal.ncolors; z++) {
-            if (compare_color(&col, &(pal.colors[z])) < 40) break;
+            if (compare_color(&col, &(pal.colors[z])) < 1) break;
             ///if (col.r == pal.colors[z].r && col.g == pal.colors[z].g && col.b == pal.colors[z].b) break;
         }
 
