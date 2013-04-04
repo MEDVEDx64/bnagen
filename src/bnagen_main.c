@@ -245,6 +245,9 @@ int main(int argc, char *argv[])
     if(parm == NULL)
         FATAL_ERROR("Failure occured while parsing args.\n");
 
+    // Params printout
+    genPrintParams(parm);
+
     // Starting up graphics and TTF subsystems
     if(initGfx() | initTTF()) return 1;
     genStartLogging();
@@ -278,6 +281,6 @@ int main(int argc, char *argv[])
     SDL_FreeSurface(themap_pal);
 
     genState = GEN_SHUTDOWN;
-    printf("Done.\nIt took %u milliseconds.", SDL_GetTicks());
+    printf("\nDone.\nIt took %u milliseconds.", SDL_GetTicks());
     return 0;
 }

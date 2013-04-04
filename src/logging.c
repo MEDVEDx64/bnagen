@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 
-#define LOGFILE stdout
 SDL_mutex * log_mutex = NULL;
 /* Char buffer where time string is stored */
 char log_ticks[0x100];
@@ -20,14 +19,18 @@ void genPrint(const char * mesg)
     updateTicks();
 
     SDL_LockMutex(log_mutex);
-    fprintf(LOGFILE, "%s: %s\n", log_ticks, mesg);
+    printf("%s: %s\n", log_ticks, mesg);
     SDL_UnlockMutex(log_mutex);
 }
+
+#ifndef LOG_PRINT_DELAY
+#   define LOG_PRINT_DELAY 500
+#endif // LOG_PRINT_DELAY
 
 int loggingThread()
 {
     char buffer[0x200]; // text string buffer
-    genPrint("++ Starting log file ++");
+    //genPrint("++ Starting log file ++");
 
     while(genState != GEN_SHUTDOWN)
     {
@@ -44,7 +47,7 @@ int loggingThread()
             genPrint(buffer);
         }
 
-        SDL_Delay(500);
+        SDL_Delay(LOG_PRINT_DELAY);
     }
 
     SDL_DestroyMutex(log_mutex);

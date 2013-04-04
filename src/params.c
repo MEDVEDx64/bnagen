@@ -65,3 +65,18 @@ t_genParams * genParseArgs(int argc, char *argv[])
     /* Okay. */
     return params;
 }
+
+void genPrintParams(t_genParams * params)
+{
+    printf("\n=== [Settings:] =========================\n"
+           "= Width:\t\t%u\n= Height:\t\t%u\n"
+           "= List file name:\t%s\n"
+           "= Seed:\t\t\t%d\n= Intensity:\t\t%d\n"
+           "= Deadzone:\t\t%u\n= Rotated?:\t\t%d\n"
+           "= Output file name:\t%s\n"
+           "=========================================\n\n",
+
+           params->width, params->height, params->list_fn,
+           params->seed, params->intensity, params->deadzone,
+           params->rotate, params->out_fn);
+}

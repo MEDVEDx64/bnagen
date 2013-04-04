@@ -31,4 +31,6 @@ t_genParams;
 /* Returns null on failure */
 t_genParams * genParseArgs(int argc, char *argv[]);
 
+void genPrintParams(t_genParams * params);
+
 #endif // PARAMS_H_INCLUDED
