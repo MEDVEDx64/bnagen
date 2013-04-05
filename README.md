@@ -47,9 +47,10 @@ All these keys are optional, the following defaults may be used instead:
  - sprite list file: *sprites.txt*
  - seed: *0* (current UNIX-time will be used)
  - intensity: *38600* (please note that actual intensity goes lower as it's value is greater!)
+ - deadzone: *78*
  - output image: *out.png*
 
-While deadzone isn't specified, an anlernative sprite-placing technique will be used. Deadzone is disabled by default (0 means it's disabled)
+While deadzone == 0, an anlernative sprite-placing technique will be used.
 
 Tips
 ====

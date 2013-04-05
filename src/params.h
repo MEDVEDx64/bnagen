@@ -10,7 +10,7 @@
 #define DEFAULT_INTENSITY   38600
 
 #define DEFAULT_OUT_FN "out.png"
-//#define DEFAULT_DEADZONE 16
+#define DEFAULT_DEADZONE 78
 
 typedef struct {
     /* Graphics list file name */
@@ -32,5 +32,6 @@ t_genParams;
 t_genParams * genParseArgs(int argc, char *argv[]);
 
 void genPrintParams(t_genParams * params);
+int  genIsFileCanBeWritten(const char * fname);
 
 #endif // PARAMS_H_INCLUDED

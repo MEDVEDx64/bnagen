@@ -50,3 +50,9 @@
 0.07 (2013-04-04)
 
 	- Redesigned logging
+
+0.07_1 (2013-04-05)
+
+	- Improved logging
+	- Fixed missing 'end-of-line' in the last message
+	- Deadzone now have it's default value

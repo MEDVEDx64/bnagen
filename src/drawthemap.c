@@ -94,7 +94,7 @@ SDL_Surface * mkSurf(int w, int h)
     if(s == NULL)
     {
         char buf[0x500];
-        sprintf(buf, "%s: error occured while attempting to allocate a space for the map: %s", __FUNCTION__, SDL_GetError());
+        sprintf(buf, "%s: error occured while attempting to allocate a space for the map: %s\n", __FUNCTION__, SDL_GetError());
         genPrint(buf);
         return NULL;
     }
@@ -160,6 +160,7 @@ SDL_Surface * genCreateBnAMap(t_genParams * params, t_genSprites * sprites) {
             }
         }
 
+        progbar++;
     }
 
     return themap;

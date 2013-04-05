@@ -22,10 +22,11 @@ All these keys are optional, the following defaults may be used instead:\n\
             seed: %d (current UNIX-time will be used)\n\
             intensity: %d\n\
     (please note that actual intensity goes lower as it's value is greater!)\n\
+            deadzone: %d\n\
             output image: %s\n\
-\nWhile deadzone isn't specified, an anlernative sprite-placing \
-technique will be used. Deadzone is disabled by default (0 means it's disabled)\n", argv[0],\
+\nWhile deadzone == 0, an anlernative sprite-placing \
+technique will be used.\n", argv[0],\
             DEFAULT_W, DEFAULT_H, DEFAULT_FILENAME,\
-            DEFAULT_SEED, DEFAULT_INTENSITY, DEFAULT_OUT_FN)
+            DEFAULT_SEED, DEFAULT_INTENSITY, DEFAULT_DEADZONE, DEFAULT_OUT_FN)
 
 #endif // HELP_MESSAGE_H_INCLUDED

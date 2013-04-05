@@ -19,7 +19,7 @@ void genPrint(const char * mesg)
     updateTicks();
 
     SDL_LockMutex(log_mutex);
-    printf("%s: %s\n", log_ticks, mesg);
+    printf("%s: %s", log_ticks, mesg);
     SDL_UnlockMutex(log_mutex);
 }
 
@@ -38,12 +38,12 @@ int loggingThread()
             states here */
         if(genState == GEN_WORKING)
         {
-            sprintf(buffer, "> %d/%d", progbar, progbar_max/2);
+            sprintf(buffer, "> %d/%d\n", progbar, progbar_max/2);
             genPrint(buffer);
         }
         else if(genState == GEN_INDEXING)
         {
-            sprintf(buffer, "> %d/%d", progbar-progbar_max/2, progbar_max/2);
+            sprintf(buffer, "> %d/%d\n", progbar-progbar_max/2, progbar_max/2);
             genPrint(buffer);
         }
 

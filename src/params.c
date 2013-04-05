@@ -4,6 +4,20 @@
 #include <stdio.h>
 #include "params.h"
 #include "state.h"
+//#include "logging.h"
+
+// Is destination file is available to write?
+int genIsFileCanBeWritten(const char * fname)
+{
+    FILE *f = NULL;
+    if((f = fopen(fname, "w")) == NULL)
+        return 0;
+    else
+    {
+        fclose(f);
+        return 1;
+    }
+}
 
 t_genParams * genParseArgs(int argc, char *argv[])
 {
@@ -12,6 +26,8 @@ t_genParams * genParseArgs(int argc, char *argv[])
 
     t_genParams * params = malloc(sizeof(t_genParams));
     memset(params, 0, sizeof(t_genParams));
+
+    params->deadzone = DEFAULT_DEADZONE;
 
     int i;
     for(i = 0; i < argc-1; i++)
@@ -61,7 +77,6 @@ t_genParams * genParseArgs(int argc, char *argv[])
     if(!params->out_fn) params->out_fn          = DEFAULT_OUT_FN;
     //if(!params->deadzone) params->deadzone          = DEFAULT_DEADZONE;
 
-
     /* Okay. */
     return params;
 }
@@ -72,11 +87,11 @@ void genPrintParams(t_genParams * params)
            "= Width:\t\t%u\n= Height:\t\t%u\n"
            "= List file name:\t%s\n"
            "= Seed:\t\t\t%d\n= Intensity:\t\t%d\n"
-           "= Deadzone:\t\t%u\n= Rotated?:\t\t%d\n"
+           "= Deadzone:\t\t%u\n= Rotated?:\t\t%s\n"
            "= Output file name:\t%s\n"
            "=========================================\n\n",
 
            params->width, params->height, params->list_fn,
            params->seed, params->intensity, params->deadzone,
-           params->rotate, params->out_fn);
+           params->rotate ? "yes" : "no", params->out_fn);
 }

@@ -1,9 +1,9 @@
 /** BnA map generator
-    MEDVEDx64, 2013.03.10-15
+    MEDVEDx64, AlexX, 2013.03.10 — 2013.04.05
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.07"
+#define BNAGEN_VERSION "0.07_1"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -23,7 +23,7 @@
 
 /* Printing an error message and running out */
 #define FATAL_ERROR(mesg) do {      \
-    printf(mesg);                   \
+    genPrint(mesg);                 \
     return 1;                       \
 }                                   \
 while(0)
@@ -252,6 +252,10 @@ int main(int argc, char *argv[])
     if(initGfx() | initTTF()) return 1;
     genStartLogging();
 
+    // Validating output file
+    if(!genIsFileCanBeWritten(parm->out_fn))
+        FATAL_ERROR("Fatal: the specified output file cannot be written.\n");
+
     // Creating threads
     SDL_CreateThread(drawState_Thread, NULL);
     SDL_CreateThread(eventsThread, NULL);
@@ -281,6 +285,6 @@ int main(int argc, char *argv[])
     SDL_FreeSurface(themap_pal);
 
     genState = GEN_SHUTDOWN;
-    printf("\nDone.\nIt took %u milliseconds.", SDL_GetTicks());
+    printf("\nDone.\nIt took %u milliseconds.\n", SDL_GetTicks());
     return 0;
 }

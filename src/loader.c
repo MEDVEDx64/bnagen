@@ -20,7 +20,9 @@ t_genSprites * genLoadSprites(const char * list_fn)
         // Trying to open the list file
         if(!(f = fopen(list_fn,"r")))
         {
-            printf("%s: fatal: can't open list file.\n", __FUNCTION__);
+            char buf[0x500];
+            sprintf(buf, "%s: fatal: can't open list file.\n", __FUNCTION__);
+            genPrint(buf);
             return NULL;
         }
     }
@@ -50,7 +52,7 @@ t_genSprites * genLoadSprites(const char * list_fn)
     }
 
     char buff[0x500];
-    sprintf(buff, "%s: successfully loaded %d sprites.",
+    sprintf(buff, "%s: successfully loaded %d sprites.\n",
            __FUNCTION__, spr->count);
     genPrint(buff);
 
