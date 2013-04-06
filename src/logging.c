@@ -14,7 +14,7 @@ void updateTicks()
 
 void genPrint(const char * mesg)
 {
-    if(!log_mutex || !SDL_WasInit(0)) return;
+    if(!log_mutex /* || !SDL_WasInit(0)*/) return;
 
     updateTicks();
 

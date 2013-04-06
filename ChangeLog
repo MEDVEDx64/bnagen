@@ -56,3 +56,7 @@
 	- Improved logging
 	- Fixed missing 'end-of-line' in the last message
 	- Deadzone now have it's default value
+
+0.07_2 (2013-04-06)
+
+	- Fixed missing SDL error messages when started without video subsystem

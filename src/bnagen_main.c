@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.07_1"
+#define BNAGEN_VERSION "0.07_2"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -23,7 +23,10 @@
 
 /* Printing an error message and running out */
 #define FATAL_ERROR(mesg) do {      \
-    genPrint(mesg);                 \
+    if(SDL_WasInit(0))              \
+        genPrint(mesg);             \
+    else                            \
+        printf(mesg);               \
     return 1;                       \
 }                                   \
 while(0)
@@ -55,7 +58,10 @@ int initGfx()
 {
     // Starting SDL...
     if(SDL_Init(SDL_INIT_EVERYTHING))
-        FATAL_ERROR("Failed to initialize SDL\n");
+    {
+        printf("Fatal: failed to start SDL (%s).\n", SDL_GetError());
+        return 1;
+    }
 
     // Setting up SCRWxSCRH window
     SDL_SetVideoMode(SCRW, SCRH, 0, SDL_HWSURFACE|SDL_DOUBLEBUF);
@@ -71,7 +77,7 @@ static TTF_Font * font = NULL; // Storing the font here
 int initTTF()
 {
     if(TTF_Init())
-        FATAL_ERROR("TTF_Init returned an error state.\n");
+        FATAL_ERROR("Fatal: TTF_Init returned an error state.\n");
 
     // Loading the font from file
     font = TTF_OpenFont(FONT_FN, FONT_SIZE);
