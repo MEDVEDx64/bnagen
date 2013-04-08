@@ -3,7 +3,7 @@
     GPLv2.
 **/
 
-#define BNAGEN_VERSION "0.07_2"
+#define BNAGEN_VERSION "0.08"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
 
     // And saving it.
     genSetState(GEN_INDEXING);
-    SDL_Palette pal = genScanSurface(themap);
+    SDL_Palette pal = genScanSurface(themap, parm->colors);
     SDL_Surface * themap_pal = genCreatePalettizedSurface(themap, &pal);
     SDL_FreeSurface(themap);
 

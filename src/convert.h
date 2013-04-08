@@ -5,6 +5,7 @@
         surface converter **/
 
 // Maximal colors count in palette
+/*
 #define DEFAULT_PALETTE_COLORS 110
 #ifndef MAX_PALETTE_COLORS
 #   define MAX_PALETTE_COLORS DEFAULT_PALETTE_COLORS
@@ -14,6 +15,7 @@
 #       define MAX_PALETTE_COLORS DEFAULT_PALETTE_COLORS
 #   endif
 #endif
+*/
 
 #include <SDL/SDL.h>
 
@@ -31,7 +33,7 @@
     } while(0)
 
 /** Create surface's 8-bit palette **/
-SDL_Palette genScanSurface(SDL_Surface * surf);
+SDL_Palette genScanSurface(SDL_Surface * surf, unsigned char colors);
 
 /** Return color nearest to src_pixel and available in palette **/
 //Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette);

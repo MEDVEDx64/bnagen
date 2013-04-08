@@ -40,6 +40,7 @@ How to
  - *-o FILENAME* — output image filename
  - *-d VALUE* — deadzone, distance between sprites
  - *-r VALUE* — should sprites be randomly rotated?
+ - *-c VALUE* — max. palette colors
 
 All these keys are optional, the following defaults may be used instead:
  - width: *1920*
@@ -49,6 +50,7 @@ All these keys are optional, the following defaults may be used instead:
  - intensity: *38600* (please note that actual intensity goes lower as it's value is greater!)
  - deadzone: *78*
  - output image: *out.png*
+ - palette colors: *63*
 
 While deadzone == 0, an anlernative sprite-placing technique will be used.
 

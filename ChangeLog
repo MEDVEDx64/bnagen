@@ -60,3 +60,7 @@
 0.07_2 (2013-04-06)
 
 	- Fixed missing SDL error messages when started without video subsystem
+
+0.08 (2013-04-08)
+
+	- Added ability to set up maximal palette colors count

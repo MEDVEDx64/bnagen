@@ -11,6 +11,7 @@
 
 #define DEFAULT_OUT_FN "out.png"
 #define DEFAULT_DEADZONE 78
+#define DEFAULT_COLORS 63
 
 typedef struct {
     /* Graphics list file name */
@@ -25,6 +26,8 @@ typedef struct {
          int    intensity;
     int         deadzone;
     int         rotate;     // random sprite rotation toggler
+    unsigned
+        char    colors;     // Max. colors in palette
 }
 t_genParams;
 

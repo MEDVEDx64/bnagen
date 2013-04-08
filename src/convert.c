@@ -27,7 +27,7 @@ static inline Uint8 genGetNearestColor(Uint32 src_pixel, SDL_Palette * palette)
 #   define SCAN_ATTEMPTS_MULTIPLIER 3
 #endif // SCAN_ATTEMPTS_MULTIPLIER
 
-SDL_Palette genScanSurface(SDL_Surface * surf)
+SDL_Palette genScanSurface(SDL_Surface * surf, unsigned char colors)
 {
     int max_attempts = surf->w * SCAN_ATTEMPTS_MULTIPLIER;
     SDL_Palette pal;
@@ -42,7 +42,7 @@ SDL_Palette genScanSurface(SDL_Surface * surf)
     pal.colors[0].g = 0;
     pal.colors[0].b = 0;
 
-    while(i++ < max_attempts && pal.ncolors <= MAX_PALETTE_COLORS)
+    while(i++ < max_attempts && pal.ncolors <= colors)
     {
         // Getting a random pixel from input surface
         SDL_Color col;
@@ -66,10 +66,9 @@ SDL_Surface * genCreatePalettizedSurface(SDL_Surface * source, SDL_Palette * pal
     if(palette->ncolors > (Uint8)-1){
         char buf[0x500];
         sprintf(buf, "%s: alert: abnormal palette colors count detected (%d). "
-               "Fixing it, but proceeding may result in fault!\n",
+               "Proceeding may result in fault!\n",
                __FUNCTION__, palette->ncolors);
         genPrint(buf);
-        palette->ncolors = MAX_PALETTE_COLORS;
     }
 
     // Creating 8-bit blank surface

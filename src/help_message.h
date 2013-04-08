@@ -14,7 +14,8 @@ usage: %s [OPTIONS ...]\n\
             -I VALUE — intensity\n\
             -o FILENAME — output image filename\n\
             -d VALUE — 'deadzone': distance between sprites\n\
-            -r VALUE — should sprites be randomly rotated?\n\n\
+            -r VALUE — should sprites be randomly rotated?\n\
+            -c VALUE — max. palette colors\n\n\
 All these keys are optional, the following defaults may be used instead:\n\
             width: %d\n\
             height: %d\n\
@@ -24,9 +25,11 @@ All these keys are optional, the following defaults may be used instead:\n\
     (please note that actual intensity goes lower as it's value is greater!)\n\
             deadzone: %d\n\
             output image: %s\n\
+            palette colors: %u\n\
 \nWhile deadzone == 0, an anlernative sprite-placing \
 technique will be used.\n", argv[0],\
             DEFAULT_W, DEFAULT_H, DEFAULT_FILENAME,\
-            DEFAULT_SEED, DEFAULT_INTENSITY, DEFAULT_DEADZONE, DEFAULT_OUT_FN)
+            DEFAULT_SEED, DEFAULT_INTENSITY, DEFAULT_DEADZONE, DEFAULT_OUT_FN,\
+            DEFAULT_COLORS)
 
 #endif // HELP_MESSAGE_H_INCLUDED

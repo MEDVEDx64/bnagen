@@ -28,6 +28,7 @@ t_genParams * genParseArgs(int argc, char *argv[])
     memset(params, 0, sizeof(t_genParams));
 
     params->deadzone = DEFAULT_DEADZONE;
+    params->colors = DEFAULT_COLORS;
 
     int i;
     for(i = 0; i < argc-1; i++)
@@ -54,6 +55,10 @@ t_genParams * genParseArgs(int argc, char *argv[])
         if(!strcmp(argv[i], "-r"))
             params->rotate = atoi(argv[i+1]);
 
+        /* Palette colors */
+        if(!strcmp(argv[i], "-c"))
+            params->colors = atoi(argv[i+1]);
+
         /* .. and filenames */
         if(!strcmp(argv[i], "-i"))
         {
@@ -76,6 +81,7 @@ t_genParams * genParseArgs(int argc, char *argv[])
     if(!params->intensity) params->intensity    = DEFAULT_INTENSITY;
     if(!params->out_fn) params->out_fn          = DEFAULT_OUT_FN;
     //if(!params->deadzone) params->deadzone          = DEFAULT_DEADZONE;
+    if(!params->colors) params->colors          = DEFAULT_COLORS;
 
     /* Okay. */
     return params;
@@ -89,9 +95,11 @@ void genPrintParams(t_genParams * params)
            "= Seed:\t\t\t%d\n= Intensity:\t\t%d\n"
            "= Deadzone:\t\t%u\n= Rotated?:\t\t%s\n"
            "= Output file name:\t%s\n"
+           "= Palette colors:\t%u\n"
            "=========================================\n\n",
 
            params->width, params->height, params->list_fn,
            params->seed, params->intensity, params->deadzone,
-           params->rotate ? "yes" : "no", params->out_fn);
+           params->rotate ? "yes" : "no", params->out_fn,
+           params->colors);
 }
